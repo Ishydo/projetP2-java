@@ -33,9 +33,9 @@ public class KServer extends KBaseApp {
         kryoSerializer.register(onChairPacket.class);
         kryoSerializer.register(PlayersPosition.class);
         kryoSerializer.register(RoundInfo.class);
-        kryoSerializer.register(PlayerHello.class);
-        kryoSerializer.register(PlayerReady.class);
+        kryoSerializer.register(StatePacket.class);
         kryoSerializer.register(EntityInfo[].class);
+        kryoSerializer.register(StatePacket.states.class);
         server.start();
         server.bind(tcpPort, udpPort);
         endPoint = (EndPoint)server;

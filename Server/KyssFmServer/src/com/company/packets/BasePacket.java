@@ -13,7 +13,7 @@ public abstract class BasePacket {
 
     public String uuid = KBaseApp.uuid;
 
-    public EntityInfo player;
+    public EntityInfo player = new EntityInfo();
 
     protected String serverTime;
 

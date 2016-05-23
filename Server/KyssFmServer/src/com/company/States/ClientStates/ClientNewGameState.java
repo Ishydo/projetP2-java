@@ -1,10 +1,11 @@
 package com.company.States.ClientStates;
 
 import com.company.KBaseApp;
-import com.company.KServer;
 import com.company.States.IState;
-import com.company.packets.PlayerReady;
+import com.company.packets.EntityInfo;
 import com.company.packets.RoundInfo;
+import com.company.packets.StatePacket;
+import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
@@ -27,16 +28,18 @@ public class ClientNewGameState implements IState {
                     System.out.println(o);
                     if (o instanceof RoundInfo) {
                         context.getPlayedRounds().add((RoundInfo) o);
-
                         JOptionPane.showMessageDialog(null, "Attention, on va commencer la partie !");
-                        PlayerReady pr = new PlayerReady();
-                        connection.sendTCP(pr);
+                        StatePacket p = new StatePacket();
+                        p.state = StatePacket.states.READY;
+                        connection.sendTCP(p);
                     } else if (o.equals("gameon")) {
                         System.out.println("POUF JEUX DEMARER !");
                     }
-
                 }
             });
+            StatePacket p = new StatePacket();
+            p.state = StatePacket.states.HELLO;
+            ((Client)context.getEndPoint()).sendTCP(p);
         }
     }
 }

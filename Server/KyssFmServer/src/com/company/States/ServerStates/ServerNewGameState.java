@@ -20,15 +20,9 @@ public class ServerNewGameState implements IState {
     public void handleState(KBaseApp context) {
         if(!initied) {
             initied = true;
-            context.getPlayedRounds().add(createGame());
+            RoundInfo currentRound = createGame();
+            context.getPlayedRounds().add(currentRound);
             context.getEndPoint().addListener(new Listener() {
-                @Override
-                public void connected(Connection connection) {
-                    super.connected(connection);
-                    System.out.println("HEY");
-                    connection.sendTCP(context.getPlayedRounds().get(context.getPlayedRounds().size()-1));
-                }
-
                 @Override
                 public void disconnected(Connection connection) {
                     super.disconnected(connection);
@@ -36,12 +30,17 @@ public class ServerNewGameState implements IState {
 
                 @Override
                 public void received(Connection connection, Object o) {
-                    if (o instanceof PlayerReady) {
-                        BasePacket pr = (BasePacket) o;
-                        ((KServer) context).getPlayersInfo().get(pr.uuid).ready = true;
-                    } else if (o instanceof PlayerHello) {
-                        BasePacket pr = (BasePacket) o;
-                        ((KServer) context).getPlayersInfo().put(pr.uuid, pr.player);
+                    System.out.println(o);
+                    if (o instanceof StatePacket) {
+                        StatePacket pr = (StatePacket)o;
+
+                        if(pr.state == StatePacket.states.HELLO){
+                            ((KServer) context).getPlayersInfo().put(pr.uuid, pr.player);
+                            connection.sendTCP(currentRound);
+                        }
+                        else if(pr.state == StatePacket.states.READY){
+                            ((KServer) context).getPlayersInfo().get(pr.uuid).ready = true;
+                        }
                     }
                     if (areAllPlayersReady(context)) {
                         ((Server) context.getEndPoint()).sendToAllTCP("gameon");

@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.States.ClientStates.ClientGameOnState;
+import com.company.States.ClientStates.ClientNewGameState;
 import com.company.packets.*;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.EndPoint;
@@ -35,9 +36,9 @@ public class KClient extends KBaseApp {
         kryoSerializer.register(onChairPacket.class);
         kryoSerializer.register(PlayersPosition.class);
         kryoSerializer.register(RoundInfo.class);
-        kryoSerializer.register(PlayerHello.class);
-        kryoSerializer.register(PlayerReady.class);
+        kryoSerializer.register(StatePacket.class);
         kryoSerializer.register(EntityInfo[].class);
+        kryoSerializer.register(StatePacket.states.class);
         client.start();
         client.connect(5000, JOptionPane.showInputDialog(null,"Entrez l'ip"), tcpPort, udpPort);
         endPoint = (EndPoint) client;
@@ -45,7 +46,7 @@ public class KClient extends KBaseApp {
     }
 
     void run(){
-        currentState = new ClientGameOnState();
+        currentState = new ClientNewGameState();
         while(!stop){
             currentState.handleState(this);
         }
