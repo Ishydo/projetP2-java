@@ -7,20 +7,22 @@ import com.pepperonas.fxiconics.gmd.FxFontGoogleMaterial;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Separator;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 
 
 public class Main extends Application {
@@ -43,14 +45,14 @@ public class Main extends Application {
 
 
         GridPane grid = new GridPane();
-        grid.setStyle("-fx-background-color: #f39c12;");
+        grid.setStyle("-fx-background-color: #000;");
         grid.setPadding(new Insets(50, 50, 50, 50));
         Text category = new Text("Gamezone.");
         category.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         grid.add(category, 1, 0);
 
         // Set MainLayout elements
-        mainLayout.setTop(menuTopBar);
+        //mainLayout.setTop(menuTopBar);
         mainLayout.setLeft(leftBar);
         mainLayout.setCenter(grid);
 
@@ -81,7 +83,7 @@ public class Main extends Application {
                         .color(MaterialColor.WHITE)
                         .build();
 
-        Text roomName = new Text("Game Room : eSport Special KYSFM Room");
+        Text roomName = new Text("eSport Special KYSFM Room");
         roomName.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         roomName.setFill(Color.WHITESMOKE);
 
@@ -95,36 +97,114 @@ public class Main extends Application {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10)); // Set all sides to 10
         vbox.setSpacing(8);              // Gap between nodes
-// Use style classes to set properties previously set above
+
+        // Use style classes to set properties previously set above
         //vbox.getStyleClass().addAll("pane", "vbox");
 
         vbox.setStyle("-fx-background-color: #f39c12;");
-        vbox.setPrefWidth(200);
 
-        Text title = new Text("Players");
-        title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        vbox.getChildren().add(title);
+        // Titre du jeu
+        Text gameName = new Text("Kys FM");
+        gameName.setFont(Font.font("Open Sans Extrabold", FontWeight.NORMAL, 25));
+        gameName.setFill(Color.WHITESMOKE);
 
-        FxIconicsLabel labelDefault =
-                (FxIconicsLabel) new FxIconicsLabel.Builder(FxFontAwesome.Icons.faw_user)
-                        .size(24)
-                        .color(MaterialColor.WHITE)
-                        .build();
+        // Nom de la room
+        Text roomName = new Text("The Great Room Of Players");
+        roomName.setFont(Font.font("Open Sans Light", FontWeight.NORMAL, 15));
+        roomName.setFill(Color.WHITESMOKE);
 
-        vbox.getChildren().add(labelDefault);
+        Separator separator = new Separator();
 
-        Hyperlink options[] = new Hyperlink[] {
-                new Hyperlink("Player 1"),
-                new Hyperlink("Player 2"),
-                new Hyperlink("Player 3"),
-                new Hyperlink("Player 4")};
+        // Titre joueurs
+        Text playersTxt = new Text("Players");
+        playersTxt.setFont(Font.font("Open Sans", FontWeight.BOLD, 25));
+        playersTxt.setFill(Color.WHITESMOKE);
 
-        for (int i=0; i<4; i++) {
-            // Add offset to left side to indent from title
-            VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
-            vbox.getChildren().add(options[i]);
+        vbox.getChildren().addAll(gameName, roomName, separator, playersTxt);
+
+        // Noms des joueurs dans un tableau de labels
+        Text players[] = new Text[]{
+                new Text("Domdompow"),
+                new Text("Diogoinou"),
+                new Text("Shadow78"),
+                new Text("TheGreat"),
+                new Text("Domdompow"),
+                new Text("Diogoinou"),
+                new Text("Shadow78"),
+                new Text("TheGreat"),
+                new Text("Domdompow"),
+                new Text("Diogoinou"),
+                new Text("Shadow78"),
+                new Text("TheGreat"),
+                new Text("Domdompow"),
+                new Text("Diogoinou"),
+                new Text("Shadow78"),
+                new Text("TheGreat")
+        };
+
+        Text scores[] = new Text[]{
+                new Text("1236"),
+                new Text("896"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0")
+        };
+
+
+
+        // Boucle d'affichage des joueurs dans la barre de gauche
+        for (int i=0; i< players.length; i++) {
+
+            // PlayerLine
+            HBox playerline = new HBox(8);
+            playerline.setMinHeight(20);
+
+            // Username box
+            HBox usernameBox = new HBox(8);
+            usernameBox.setMinHeight(20);
+            usernameBox.setPrefWidth(200);
+
+            // Score Box
+            HBox scoreBox = new HBox();
+            scoreBox.setMinHeight(20);
+            scoreBox.setAlignment(Pos.TOP_RIGHT);
+
+            FxIconicsLabel icon =
+                    (FxIconicsLabel) new FxIconicsLabel.Builder(FxFontAwesome.Icons.faw_user)
+                            .size(20)
+                            .color(MaterialColor.WHITE)
+                            .build();
+
+            // Set the text properties
+            players[i].setFill(Color.WHITESMOKE);
+            players[i].setFont(Font.font("Open Sans Extrabold", FontWeight.NORMAL, 18));
+
+            // Score line
+            scores[i].setFill(Color.WHITESMOKE);
+            scores[i].setFont(Font.font("Open Sans Light", FontWeight.NORMAL, 18));
+            scores[i].setTextAlignment(TextAlignment.RIGHT);
+
+            usernameBox.getChildren().addAll(icon, players[i]);
+            scoreBox.getChildren().add(scores[i]);
+
+            playerline.getChildren().addAll(usernameBox, scoreBox);
+
+            vbox.getChildren().addAll(playerline);
+
         }
 
+        vbox.setPrefWidth(250);
         return vbox;
     }
 
