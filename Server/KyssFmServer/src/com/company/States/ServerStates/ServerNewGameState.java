@@ -43,7 +43,10 @@ public class ServerNewGameState implements IState {
                         }
                     }
                     if (areAllPlayersReady(context)) {
-                        ((Server) context.getEndPoint()).sendToAllTCP("gameon");
+                        StatePacket p = new StatePacket(StatePacket.states.GO_TO_ON_STS);
+                        ((Server) context.getEndPoint()).sendToAllTCP(p);
+                        context.getEndPoint().removeListener(this);
+                        context.setCurrentState(new ServerGameOnState());
                     }
                 }
                 @Override
@@ -55,13 +58,14 @@ public class ServerNewGameState implements IState {
     }
 
     private boolean areAllPlayersReady(KBaseApp context){
-        return 0 == ((KServer)context)
+        if (0 == ((KServer) context)
                 .getPlayersInfo()
                 .entrySet()
                 .stream()
                 .filter(stringEntityInfoEntry -> stringEntityInfoEntry.getValue().ready == false)
                 .toArray()
-                .length;
+                .length) return true;
+        else return false;
     }
 
     private RoundInfo createGame(){
