@@ -8,6 +8,8 @@ public class RoundInfo extends BasePacket {
     private String showChairsAt;
     private EntityInfo[] chairs;
 
+    public RoundInfo(){}
+
     public RoundInfo(String roundName, String showChairsAt, EntityInfo[] chairs) {
         this.roundName = roundName;
         this.showChairsAt = showChairsAt;

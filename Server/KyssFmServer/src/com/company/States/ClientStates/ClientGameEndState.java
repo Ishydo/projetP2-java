@@ -1,15 +1,14 @@
-package com.company.States.ServerStates;
+package com.company.States.ClientStates;
 
 import com.company.KBaseApp;
-import com.company.KServer;
 import com.company.States.IState;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 /**
- * Created by diogo on 09.05.16.
+ * Created by diogo on 5/23/16.
  */
-public class ServerGameEndState implements IState {
+public class ClientGameEndState implements IState {
     @Override
     public void handleState(KBaseApp context) {
         context.getEndPoint().addListener(new Listener(){

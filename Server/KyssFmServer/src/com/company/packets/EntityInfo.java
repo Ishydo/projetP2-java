@@ -7,4 +7,5 @@ public class EntityInfo {
     public float x;
     public float y;
     public String name;
+    public boolean ready = false;
 }
