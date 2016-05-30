@@ -21,4 +21,11 @@ public class StatePacket extends BasePacket {
         super();
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "StatePacket{" +
+                "state=" + state +
+                '}';
+    }
 }

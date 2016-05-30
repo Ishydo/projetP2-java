@@ -31,4 +31,8 @@ public class RoundInfo extends BasePacket {
     public void setShowChairsAt(String showChairsAt) {
         this.showChairsAt = showChairsAt;
     }
+
+    public EntityInfo[] getChairs() {
+        return chairs;
+    }
 }

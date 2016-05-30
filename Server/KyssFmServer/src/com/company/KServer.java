@@ -46,6 +46,7 @@ public class KServer extends KBaseApp {
         currentState = new ServerNewGameState();
         while(!stop){
             currentState.handleState(this);
+            sleep();
         }
     }
 

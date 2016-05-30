@@ -1,7 +1,8 @@
 package com.company;
 
-import com.company.States.ClientStates.ClientGameOnState;
 import com.company.States.ClientStates.ClientNewGameState;
+import com.company.callbacks.IOnPlayerPosReceived;
+import com.company.callbacks.IOnShowChairs;
 import com.company.packets.*;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.EndPoint;
@@ -16,6 +17,12 @@ public class KClient extends KBaseApp {
 
     private Client client;
 
+    public static long timeDelta;
+
+    private IOnPlayerPosReceived onEnnemiesPosReceived;
+
+    private IOnShowChairs onShowChairs;
+
     public static void main(String[] args) throws IOException {
         new KClient(5555,5559);
     }
@@ -23,6 +30,8 @@ public class KClient extends KBaseApp {
     public KClient(int tcpPort, int udpPort) throws IOException {
         this.tcpPort = tcpPort;
         this.udpPort = udpPort;
+        onEnnemiesPosReceived = pos -> System.out.println("DATA FROM SERVER " + pos);
+        onShowChairs = chairs -> System.out.println("CHAIRS AT : " + chairs);
         init();
     }
 
@@ -49,6 +58,23 @@ public class KClient extends KBaseApp {
         currentState = new ClientNewGameState();
         while(!stop){
             currentState.handleState(this);
+            sleep();
         }
+    }
+
+    public IOnPlayerPosReceived getOnEnnemiesPosReceived() {
+        return onEnnemiesPosReceived;
+    }
+
+    public void setOnEnnemiesPosReceived(IOnPlayerPosReceived onEnnemiesPosReceived) {
+        this.onEnnemiesPosReceived = onEnnemiesPosReceived;
+    }
+
+    public IOnShowChairs getOnShowChairs() {
+        return onShowChairs;
+    }
+
+    public void setOnShowChairs(IOnShowChairs onShowChairs) {
+        this.onShowChairs = onShowChairs;
     }
 }

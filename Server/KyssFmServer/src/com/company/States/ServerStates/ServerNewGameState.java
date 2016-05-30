@@ -7,6 +7,9 @@ import com.company.packets.*;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -24,34 +27,26 @@ public class ServerNewGameState implements IState {
             context.getPlayedRounds().add(currentRound);
             context.getEndPoint().addListener(new Listener() {
                 @Override
-                public void disconnected(Connection connection) {
-                    super.disconnected(connection);
-                }
-
-                @Override
                 public void received(Connection connection, Object o) {
-                    System.out.println(o);
-                    if (o instanceof StatePacket) {
-                        StatePacket pr = (StatePacket)o;
+                    synchronized (context){
+                        if (o instanceof StatePacket) {
+                            StatePacket pr = (StatePacket)o;
 
-                        if(pr.state == StatePacket.states.HELLO){
-                            ((KServer) context).getPlayersInfo().put(pr.uuid, pr.player);
-                            connection.sendTCP(currentRound);
+                            if(pr.state == StatePacket.states.HELLO){
+                                ((KServer) context).getPlayersInfo().put(pr.uuid, pr.player);
+                                connection.sendTCP(currentRound);
+                            }
+                            else if(pr.state == StatePacket.states.READY){
+                                ((KServer) context).getPlayersInfo().get(pr.uuid).ready = true;
+                            }
                         }
-                        else if(pr.state == StatePacket.states.READY){
-                            ((KServer) context).getPlayersInfo().get(pr.uuid).ready = true;
+                        if (areAllPlayersReady(context)) {
+                            StatePacket p = new StatePacket(StatePacket.states.GO_TO_ON_STS);
+                            ((Server) context.getEndPoint()).sendToAllTCP(p);
+                            context.setCurrentState(new ServerGameOnState());
+                            context.getEndPoint().removeListener(this);
                         }
                     }
-                    if (areAllPlayersReady(context)) {
-                        StatePacket p = new StatePacket(StatePacket.states.GO_TO_ON_STS);
-                        ((Server) context.getEndPoint()).sendToAllTCP(p);
-                        context.getEndPoint().removeListener(this);
-                        context.setCurrentState(new ServerGameOnState());
-                    }
-                }
-                @Override
-                public void idle(Connection connection) {
-                    super.idle(connection);
                 }
             });
         }
@@ -69,7 +64,9 @@ public class ServerNewGameState implements IState {
     }
 
     private RoundInfo createGame(){
-        return new RoundInfo("First",new Date().toString(),new EntityInfo[]{
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, 30);
+        return new RoundInfo("First",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(calendar.getTime()),new EntityInfo[]{
                 new EntityInfo(),
                 new EntityInfo(),
         });

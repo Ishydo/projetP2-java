@@ -26,6 +26,18 @@ public abstract class KBaseApp {
 
     abstract void run();
 
+
+    public void sleep(){
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public RoundInfo getCurrentRound(){
+        return playedRounds.get(playedRounds.size()-1);
+    }
+
     public IState getCurrentState() {
         return currentState;
     }

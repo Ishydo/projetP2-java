@@ -17,24 +17,25 @@ public class ServerGameOnState implements IState {
 
     private boolean initied = false;
     private KServer srv;
+
     @Override
     public void handleState(KBaseApp context) {
-        if(!initied){
+        if (!initied) {
             initied = true;
-            context.getEndPoint().addListener(new Listener(){
+            context.getEndPoint().addListener(new Listener() {
                 @Override
                 public void received(Connection connection, Object o) {
-                    if(o instanceof BasePacket){
-                        srv = (KServer)context;
+                    if (o instanceof BasePacket) {
+                        srv = (KServer) context;
                         BasePacket e = (BasePacket) o;
-                        srv.getPlayersInfo().put(e.uuid,e.player);
+                        srv.getPlayersInfo().put(e.uuid, e.player);
                     }
                 }
             });
         }
 
-        if(srv != null){
-            ((Server)context.getEndPoint())
+        if (srv != null) {
+            ((Server) context.getEndPoint())
                     .sendToAllTCP(
                             new PlayersPosition(
                                     srv.getPlayersInfo()
@@ -45,12 +46,5 @@ public class ServerGameOnState implements IState {
                             )
                     );
         }
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
     }
 }

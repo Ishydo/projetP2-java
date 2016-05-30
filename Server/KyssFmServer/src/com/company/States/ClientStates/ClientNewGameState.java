@@ -25,14 +25,15 @@ public class ClientNewGameState implements IState {
             context.getEndPoint().addListener(new Listener() {
                 @Override
                 public void received(Connection connection, Object o) {
-                    System.out.println(o);
                     if (o instanceof RoundInfo) {
                         context.getPlayedRounds().add((RoundInfo) o);
                         JOptionPane.showMessageDialog(null, "Attention, on va commencer la partie !");
                         StatePacket p = new StatePacket(StatePacket.states.READY);
                         connection.sendTCP(p);
                     } else if (o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.GO_TO_ON_STS) {
+                        System.out.println("Passage en game on");
                         context.setCurrentState(new ClientGameOnState());
+                        context.getEndPoint().removeListener(this);
                     }
                 }
             });
