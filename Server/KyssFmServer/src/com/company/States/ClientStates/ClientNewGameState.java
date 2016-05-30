@@ -29,16 +29,14 @@ public class ClientNewGameState implements IState {
                     if (o instanceof RoundInfo) {
                         context.getPlayedRounds().add((RoundInfo) o);
                         JOptionPane.showMessageDialog(null, "Attention, on va commencer la partie !");
-                        StatePacket p = new StatePacket();
-                        p.state = StatePacket.states.READY;
+                        StatePacket p = new StatePacket(StatePacket.states.READY);
                         connection.sendTCP(p);
-                    } else if (o.equals("gameon")) {
-                        System.out.println("POUF JEUX DEMARER !");
+                    } else if (o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.GO_TO_ON_STS) {
+                        context.setCurrentState(new ClientGameOnState());
                     }
                 }
             });
-            StatePacket p = new StatePacket();
-            p.state = StatePacket.states.HELLO;
+            StatePacket p = new StatePacket(StatePacket.states.HELLO);
             ((Client)context.getEndPoint()).sendTCP(p);
         }
     }

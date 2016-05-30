@@ -13,6 +13,7 @@ public class PlayersPosition extends BasePacket {
     public EntityInfo[] getPlayers() {
         return players;
     }
+    public PlayersPosition(){}
 
     public void setPlayers(EntityInfo[] players) {
         this.players = players;

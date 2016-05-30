@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * Created by diogo on 09.05.16.
  */
-public abstract class BasePacket {
+public class BasePacket {
 
     public String uuid = KBaseApp.uuid;
 

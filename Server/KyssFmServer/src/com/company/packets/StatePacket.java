@@ -14,4 +14,11 @@ public class StatePacket extends BasePacket {
     }
 
     public states state;
+
+    public StatePacket(){}
+
+    public StatePacket(states state) {
+        super();
+        this.state = state;
+    }
 }
