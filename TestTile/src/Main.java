@@ -17,7 +17,9 @@ public class Main extends Application {
         Board board = new Board();
         Scene scene = new Scene(board);
         scene.addEventFilter(KeyEvent.KEY_PRESSED,
-                event -> board.handleKeyPressed(event.getCode()));
+                event -> board.moveCircleOnKeyPress(event.getCode()));
+        scene.addEventFilter(KeyEvent.KEY_RELEASED,
+                event -> board.moveCircleOnKeyRelease(event.getCode()));
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

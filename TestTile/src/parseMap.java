@@ -13,8 +13,12 @@ public class parseMap {
     private String nameFile = "./img/map.txt";
 
     public ArrayList<Point> getTabSpawnWall() {return tabSpawnWall;}
+    public ArrayList<Point> getTabSpawnPlayers() {return tabSpawnPlayers;}
+    public ArrayList<Point> getTabSpawnChairs() {return tabSpawnChairs;}
 
     private ArrayList<Point> tabSpawnWall;
+    private ArrayList<Point> tabSpawnPlayers;
+    private ArrayList<Point> tabSpawnChairs;
 
 
     public parseMap() throws ParserConfigurationException
@@ -23,6 +27,8 @@ public class parseMap {
         try
         {
             tabSpawnWall = new ArrayList<Point>();
+            tabSpawnChairs = new ArrayList<>();
+            tabSpawnPlayers = new ArrayList<>();
 
             BufferedReader buff = initMapParser("./img/map.txt");
 
@@ -50,6 +56,16 @@ public class parseMap {
                 // Lecture du fichier map pour récupération des positions des murs
                 BufferedReader buffCollision = initMapParser(nameFile);
                 computeTiledElements(buffCollision, "collision", tabSpawnWall);
+                buffCollision.close();
+
+                // Lecture du fichier map pour récupération des positions des murs
+                buffCollision = initMapParser(nameFile);
+                computeTiledElements(buffCollision, "spawn", tabSpawnPlayers);
+                buffCollision.close();
+
+                // Lecture du fichier map pour récupération des positions des murs
+                buffCollision = initMapParser(nameFile);
+                computeTiledElements(buffCollision, "chairs", tabSpawnChairs);
                 buffCollision.close();
 
 
