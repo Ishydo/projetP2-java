@@ -14,7 +14,6 @@ import java.util.ArrayList;
  */
 public class Player extends BaseCharacter {
     boolean UP, DOWN, RIGHT, LEFT;
-    String name;
     ImageView image;
     double x; double y;
     int speed;

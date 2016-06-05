@@ -1,4 +1,4 @@
-package sample;
+package map;
 
 import com.pepperonas.fxiconics.FxIconicsLabel;
 import com.pepperonas.fxiconics.MaterialColor;
@@ -18,7 +18,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import map.Board;
 
 // ADD BUTTON TO BOTTOM
 
