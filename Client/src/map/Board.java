@@ -1,15 +1,22 @@
 package map;
 
 
+import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
+import networking.KClient;
+import networking.packets.EntityInfo;
+
+import javax.swing.text.html.parser.Entity;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 
 public class Board extends Pane {
@@ -19,9 +26,19 @@ public class Board extends Pane {
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Wall> walls = new ArrayList<>();
     private ArrayList<Chair> chairs = new ArrayList<>();
+    private KClient netClient;
 
 
     public Board() throws ParserConfigurationException {
+
+
+        try {
+            netClient = new KClient(5555,5559);
+            netClient.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         //Va lire le fichier et nous générer les tableaux pour nos éléments
         m = new parseMap();
         //Donne un fond noir au board.
@@ -42,13 +59,37 @@ public class Board extends Pane {
         }
 
 
-        player = new Player("Dom",100, 100, walls, m);
-        enemies.add(new Enemy("Bryan", 200, 200));
+        player = new Player(UUID.randomUUID().toString(),100, 100, walls, m);
+
+        KClient.playerInfo.name = player.getName();
+        KClient.playerInfo.x = (float)player.x;
+        KClient.playerInfo.y = (float)player.y;
 
         this.getChildren().addAll(chairs);
         this.getChildren().addAll(enemies);
         this.getChildren().add(player);
         move(player);
+
+
+        /**
+         * Network callback
+         */
+
+        netClient.setOnEnnemiesPosReceived(pos -> Platform.runLater(() -> {
+            for(EntityInfo ei : pos){
+                if(!player.name.equals(ei.name)){
+                    int index = enemies.indexOf(ei);
+                    if(index != -1) {
+                        enemies.get(index).moveTo(ei.x, ei.y);
+                    }else {
+                        Enemy e = new Enemy(ei.name,ei.x,ei.y);
+                        enemies.add(e);
+                        this.getChildren().add(e);
+                    }
+                }
+                System.out.println(ei);
+            }
+        }));
 
     }
 
@@ -88,6 +129,13 @@ public class Board extends Pane {
             @Override
             public void run() {
                 player.move();
+
+                synchronized (KClient.playerInfo){
+                    KClient.playerInfo.name = player.getName();
+                    KClient.playerInfo.x = (float)player.getCenterX();
+                    KClient.playerInfo.y = (float)player.getCenterY();
+                }
+
                     }
         }, 0, 50);
     }
