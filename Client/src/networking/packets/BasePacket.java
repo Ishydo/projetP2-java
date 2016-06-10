@@ -13,8 +13,6 @@ public class BasePacket {
 
     public String uuid = KBaseApp.uuid;
 
-    public EntityInfo player = KClient.playerInfo;
-
     protected String serverTime;
 
     public BasePacket() {

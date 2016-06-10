@@ -5,7 +5,7 @@ import map.Enemy;
 /**
  * Created by diogo on 09.05.16.
  */
-public class EntityInfo {
+public class EntityInfo extends BasePacket {
     public float x=0;
     public float y=0;
     public String name="";
