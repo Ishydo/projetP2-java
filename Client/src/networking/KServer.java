@@ -2,7 +2,6 @@ package networking;
 
 import networking.States.KListeners.KListenerClientNewGame;
 import networking.States.KListeners.KListenerServerNewGame;
-import networking.States.ServerStates.ServerNewGameState;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Server;
 import networking.packets.*;
@@ -39,6 +38,8 @@ public class KServer extends KBaseApp {
         kryoSerializer.register(StatePacket.class);
         kryoSerializer.register(EntityInfo[].class);
         kryoSerializer.register(StatePacket.states.class);
+        kryoSerializer.register(NewPlayerPacket.class);
+        kryoSerializer.register(NewPlayerPacket.action.class);
         server.addListener(new KListenerServerNewGame(this));
         server.start();
         server.bind(tcpPort, udpPort);

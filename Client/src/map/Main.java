@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -30,6 +31,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        /**
+         * Music
+         */
+        AudioClip ac = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
+        ac.play();
 
         // Bordure pour zone de jeu
 

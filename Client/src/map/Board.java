@@ -138,4 +138,14 @@ public class Board extends Pane implements KView {
         e.y = (float)player.getCenterY();
         return e;
     }
+
+    @Override
+    public void onNewPlayerConnected(EntityInfo player) {
+        System.out.println("NOUVEAU JOUEUR " + player.toString());
+    }
+
+    @Override
+    public void onPlayerReady(EntityInfo player) {
+        System.out.println("READY : " + player.toString());
+    }
 }

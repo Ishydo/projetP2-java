@@ -5,6 +5,7 @@ import com.esotericsoftware.kryonet.Server;
 import networking.KBaseApp;
 import networking.KServer;
 import networking.packets.EntityInfo;
+import networking.packets.NewPlayerPacket;
 import networking.packets.RoundInfo;
 import networking.packets.StatePacket;
 
@@ -42,11 +43,13 @@ public class KListenerServerNewGame extends KAbstractListener {
             if(pr.state == StatePacket.states.HELLO){
                 System.out.println("HELLO PACKET RECEIVED");
                 serverContext.getPlayersInfo().put(pr.player.uuid,pr.player);
+                serverContext.getServer().sendToAllTCP(new NewPlayerPacket(pr.player));
             }
             else if(pr.state == StatePacket.states.READY){
                 System.out.println("READY RECEIVED");
                 pr.player.ready = true;
                 serverContext.getPlayersInfo().put(pr.player.uuid,pr.player);
+                serverContext.getServer().sendToAllTCP(new NewPlayerPacket(pr.player, NewPlayerPacket.action.READY));
             }
         }
         if (areAllPlayersReady() && ((KServer) context).getPlayersInfo().size() >= 2) {
