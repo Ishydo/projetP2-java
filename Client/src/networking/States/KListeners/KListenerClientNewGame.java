@@ -2,6 +2,7 @@ package networking.States.KListeners;
 
 import com.esotericsoftware.kryonet.Connection;
 import networking.KBaseApp;
+import networking.packets.EntityInfo;
 import networking.packets.NewPlayerPacket;
 import networking.packets.RoundInfo;
 import networking.packets.StatePacket;
@@ -32,10 +33,10 @@ public class KListenerClientNewGame extends KAbstractListener {
     @Override
     public void received(Connection connection, Object o) {
         super.received(connection, o);
-        if (o instanceof RoundInfo) {
-            context.getPlayedRounds().add((RoundInfo) o);
-        } else if (o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.GO_TO_ON_STS) {
+        if (o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.GO_TO_ON_STS) {
             System.out.println("Passage en game on");
+            StatePacket statePacket = (StatePacket) o;
+            context.getPlayedRounds().add(statePacket.roundInfo);
             context.getEndPoint().removeListener(this);
             context.getEndPoint().addListener(new KListenerClientGameOn(context));
         }else if(o instanceof NewPlayerPacket){
@@ -46,6 +47,9 @@ public class KListenerClientNewGame extends KAbstractListener {
                 else if(npp.playerAction == NewPlayerPacket.action.READY)
                     clientContext.getView().onPlayerReady(npp.playerWhosReady);
             }
+        }else if(o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.SRV_FULL){
+            System.out.println("Serveur pleins, désolé !");
+            System.exit(0);
         }
 
     }

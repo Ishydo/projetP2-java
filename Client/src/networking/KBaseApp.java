@@ -12,8 +12,7 @@ import java.util.UUID;
 /**
  * Created by diogo on 5/23/16.
  */
-public abstract class KBaseApp extends Thread {
-    protected IState currentState;
+public abstract class KBaseApp  {
     protected int tcpPort;
     protected int udpPort;
     protected ArrayList<RoundInfo> playedRounds = new ArrayList<>();
@@ -22,26 +21,12 @@ public abstract class KBaseApp extends Thread {
     protected boolean stop = false;
     public static String uuid = UUID.randomUUID().toString();
 
+    private final int MAX_PLAYERS = 12;
 
-
-    public void sleep(){
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
     public RoundInfo getCurrentRound(){
         return playedRounds.get(playedRounds.size()-1);
     }
 
-    public IState getCurrentState() {
-        return currentState;
-    }
-
-    public void setCurrentState(IState currentState) {
-        this.currentState = currentState;
-    }
 
     public int getTcpPort() {
         return tcpPort;
@@ -89,5 +74,9 @@ public abstract class KBaseApp extends Thread {
 
     public void setStop(boolean stop) {
         this.stop = stop;
+    }
+
+    public int getMAX_PLAYERS() {
+        return MAX_PLAYERS;
     }
 }

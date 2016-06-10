@@ -40,20 +40,13 @@ public class KServer extends KBaseApp {
         kryoSerializer.register(StatePacket.states.class);
         kryoSerializer.register(NewPlayerPacket.class);
         kryoSerializer.register(NewPlayerPacket.action.class);
+        kryoSerializer.register(int[].class);
         server.addListener(new KListenerServerNewGame(this));
         server.start();
         server.bind(tcpPort, udpPort);
         endPoint = (EndPoint)server;
-        run();
     }
 
-    public void run(){
-        /*currentState = new ServerNewGameState();
-        while(!stop){
-            currentState.handleState(this);
-            sleep();
-        }*/
-    }
 
     public HashMap<String, EntityInfo> getPlayersInfo() {
         return playersInfo;

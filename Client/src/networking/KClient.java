@@ -51,20 +51,11 @@ public class KClient extends KBaseApp {
         kryoSerializer.register(StatePacket.states.class);
         kryoSerializer.register(NewPlayerPacket.class);
         kryoSerializer.register(NewPlayerPacket.action.class);
+        kryoSerializer.register(int[].class);
         client.addListener(new KListenerClientNewGame(this));
         client.start();
         client.connect(5000, JOptionPane.showInputDialog(null,"Entrez l'ip"), tcpPort, udpPort);
         endPoint = (EndPoint) client;
-    }
-
-    public void run(){
-        /*while (!stop){
-            if(view != null && updateState){
-                player = view.getPlayerInfo();
-                client.sendUDP(player);
-            }
-            sleep();
-        }*/
     }
 
     public void sendReady(){

@@ -33,9 +33,4 @@ public class KListenerServerGameOn extends KAbstractListener {
             connection.sendUDP(serverContext.getPlayersInfo().values().toArray(new EntityInfo[serverContext.getPlayersInfo().size()]));
         }
     }
-
-    @Override
-    public void idle(Connection connection) {
-        super.idle(connection);
-    }
 }

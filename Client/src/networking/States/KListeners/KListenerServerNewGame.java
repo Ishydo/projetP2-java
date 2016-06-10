@@ -26,8 +26,10 @@ public class KListenerServerNewGame extends KAbstractListener {
     @Override
     public void connected(Connection connection) {
         super.connected(connection);
-        RoundInfo currentRound = createGame();
-        connection.sendTCP(currentRound);
+        if(serverContext.getPlayersInfo().size() > serverContext.getMAX_PLAYERS()){
+            System.out.println("FULL");
+            connection.sendTCP(new StatePacket(null,StatePacket.states.SRV_FULL));
+        }
     }
 
     @Override
@@ -57,6 +59,8 @@ public class KListenerServerNewGame extends KAbstractListener {
 
         if (areAllPlayersReady() && ((KServer) context).getPlayersInfo().size() >= 2) {
             StatePacket p = new StatePacket(null,StatePacket.states.GO_TO_ON_STS);
+            RoundInfo currentRound = createGame();
+            p.roundInfo = currentRound;
             serverContext.getServer().sendToAllTCP(p);
             context.getEndPoint().removeListener(this);
             context.getEndPoint().addListener(new KListenerServerGameOn(context));
@@ -65,10 +69,6 @@ public class KListenerServerNewGame extends KAbstractListener {
         System.out.println(serverContext.getPlayersInfo());
     }
 
-    @Override
-    public void idle(Connection connection) {
-        super.idle(connection);
-    }
     private boolean areAllPlayersReady(){
         if (0 == serverContext.getPlayersInfo()
                 .entrySet()
@@ -87,12 +87,10 @@ public class KListenerServerNewGame extends KAbstractListener {
 
     private int[] randomChairs(){
         ArrayList<Integer> chairIndexes = new ArrayList<>();
-
         for (int i = 0; i < 20 ; i++){
             chairIndexes.add(new Integer(i));
         }
         Collections.shuffle(chairIndexes);
-
         return chairIndexes.subList(0,7).stream().mapToInt(i -> i).toArray();
     }
 }
