@@ -12,6 +12,7 @@ public class BaseCharacter extends Circle{
     double x; double y;
     int speed;
     double radius = 15f;
+    boolean ready = false;      // Joueur prêt ou non
     Color color = Color.BLACK;
 
     public BaseCharacter(String name, double x, double y){
@@ -38,6 +39,8 @@ public class BaseCharacter extends Circle{
         setCenterY(y);
     }
 
+
+    public boolean getReady(){ return ready; }
 
     public String getName() {
         return name;
