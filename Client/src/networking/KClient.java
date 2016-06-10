@@ -7,6 +7,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.EndPoint;
 import javax.swing.JOptionPane;
 import java.io.IOException;
+import java.util.Calendar;
 
 /**
  * Created by diogo on 5/23/16.
@@ -60,6 +61,15 @@ public class KClient extends KBaseApp {
 
     public void sendReady(){
         client.sendTCP(new StatePacket(player,StatePacket.states.READY));
+    }
+
+    public void sendChairTaken(int index){
+        onChairPacket chairPacket = new onChairPacket();
+        chairPacket.chairIndex = index;
+        Calendar timeout = Calendar.getInstance();
+        timeout.add(Calendar.MILLISECOND,(int)-KClient.timeDelta);
+        chairPacket.clientTime = timeout.getTime().toString();
+        client.sendTCP(chairPacket);
     }
 
     public KView getView() {

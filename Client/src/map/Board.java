@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 
 
 public class Board extends Pane implements KView {
@@ -154,7 +153,15 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onTimeToShowChairs(int[] chairsIndex) {
-        //System.out.println(chairsIndex);
+        for(int i = 0; i < chairsIndex.length; i++){
+            System.out.print(chairsIndex[i] + " , ");
+        }
+        System.out.println();
+    }
+
+    @Override
+    public void onChairTaken(int index) {
+
     }
 
     public KClient getNetClient() {

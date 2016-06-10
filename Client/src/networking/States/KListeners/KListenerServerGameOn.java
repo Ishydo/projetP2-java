@@ -4,6 +4,8 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import networking.KBaseApp;
 import networking.packets.EntityInfo;
+import networking.packets.blockChair;
+import networking.packets.onChairPacket;
 
 /**
  * Created by diogo on 6/10/16.
@@ -31,6 +33,11 @@ public class KListenerServerGameOn extends KAbstractListener {
             EntityInfo e = (EntityInfo) o;
             serverContext.getPlayersInfo().put(e.uuid,e);
             connection.sendUDP(serverContext.getPlayersInfo().values().toArray(new EntityInfo[serverContext.getPlayersInfo().size()]));
+        }else if(o instanceof onChairPacket){
+            onChairPacket chairPacket = (onChairPacket) o;
+            blockChair blockChair = new blockChair();
+            blockChair.chairIndex = chairPacket.chairIndex;
+            serverContext.getServer().sendToAllTCP(blockChair);
         }
     }
 }
