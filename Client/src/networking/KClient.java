@@ -1,6 +1,8 @@
 package networking;
 
+import map.Player;
 import networking.States.ClientStates.ClientNewGameState;
+import networking.States.KListeners.KListenerClientNewGame;
 import networking.callbacks.IOnPlayerPosReceived;
 import networking.callbacks.IOnShowChairs;
 import networking.packets.*;
@@ -15,25 +17,25 @@ import java.io.IOException;
 public class KClient extends KBaseApp {
 
 
-    public static EntityInfo playerInfo = new EntityInfo();
+    private KView view;
+
+    private EntityInfo player = new EntityInfo();
 
     private Client client;
 
     public static long timeDelta;
 
-    private IOnPlayerPosReceived onEnnemiesPosReceived;
+    private boolean updateState = false;
 
-    private IOnShowChairs onShowChairs;
 
     public static void main(String[] args) throws IOException {
-        new KClient(5555,5559);
+        new KClient(5555,5559,null);
     }
 
-    public KClient(int tcpPort, int udpPort) throws IOException {
+    public KClient(int tcpPort, int udpPort,KView view) throws IOException {
         this.tcpPort = tcpPort;
         this.udpPort = udpPort;
-        onEnnemiesPosReceived = pos -> System.out.println("DATA FROM SERVER " + pos);
-        onShowChairs = chairs -> System.out.println("CHAIRS AT : " + chairs);
+        this.view = view;
         init();
     }
 
@@ -50,32 +52,47 @@ public class KClient extends KBaseApp {
         kryoSerializer.register(StatePacket.class);
         kryoSerializer.register(EntityInfo[].class);
         kryoSerializer.register(StatePacket.states.class);
+        client.addListener(new KListenerClientNewGame(this));
         client.start();
         client.connect(5000, JOptionPane.showInputDialog(null,"Entrez l'ip"), tcpPort, udpPort);
         endPoint = (EndPoint) client;
     }
 
     public void run(){
-        currentState = new ClientNewGameState();
-        while(!stop){
-            currentState.handleState(this);
+        /*while (!stop){
+            if(view != null && updateState){
+                player = view.getPlayerInfo();
+                client.sendUDP(player);
+            }
             sleep();
-        }
+        }*/
     }
 
-    public IOnPlayerPosReceived getOnEnnemiesPosReceived() {
-        return onEnnemiesPosReceived;
+    public void sendReady(){
+        client.sendTCP(new StatePacket(player,StatePacket.states.READY));
     }
 
-    public void setOnEnnemiesPosReceived(IOnPlayerPosReceived onEnnemiesPosReceived) {
-        this.onEnnemiesPosReceived = onEnnemiesPosReceived;
+    public KView getView() {
+        return view;
     }
 
-    public IOnShowChairs getOnShowChairs() {
-        return onShowChairs;
+    public void setView(KView view) {
+        this.view = view;
     }
 
-    public void setOnShowChairs(IOnShowChairs onShowChairs) {
-        this.onShowChairs = onShowChairs;
+    public EntityInfo getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(EntityInfo player) {
+        this.player = player;
+    }
+
+    public boolean isUpdateState() {
+        return updateState;
+    }
+
+    public void setUpdateState(boolean updateState) {
+        this.updateState = updateState;
     }
 }

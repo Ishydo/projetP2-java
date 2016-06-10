@@ -3,16 +3,12 @@ package map;
 import com.pepperonas.fxiconics.FxIconicsLabel;
 import com.pepperonas.fxiconics.MaterialColor;
 import com.pepperonas.fxiconics.awf.FxFontAwesome;
-import javafx.animation.FadeTransition;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -22,7 +18,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 // ADD BUTTON TO BOTTOM
 
@@ -46,24 +41,10 @@ public class Main extends Application {
 
         Board board = new Board();
 
-        // Pane central avec le jeu
-        StackPane centerPane = new StackPane();
-        Text intro = new Text("Welcome in the game !");
-        centerPane.getChildren().addAll(board, intro);
-
-        // Opacity du Board
-        board.setOpacity(0.5);
-
-        // Transition pour le text
-        /*FadeTransition ft = new FadeTransition(Duration.millis(3000), board);
-        ft.setFromValue(1.0);
-        ft.setToValue(0.0);
-        ft.play();*/
-
         // Set MainLayout elements
         ///mainLayout.setTop(menuTopBar);
         mainLayout.setLeft(leftBar);
-        mainLayout.setCenter(centerPane);
+        mainLayout.setCenter(board);
 
         // The scene taking the MainLayout
         Scene scene = new Scene(mainLayout, 1320, 800);
@@ -107,6 +88,7 @@ public class Main extends Application {
         return menuTopBar;
     }
 
+
     private VBox createLeftBar() {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10)); // Set all sides to 10
@@ -136,38 +118,88 @@ public class Main extends Application {
 
         vbox.getChildren().addAll(gameName, roomName, separator, playersTxt);
 
-        VBox playerList = new VBox();
+        // Noms des joueurs dans un tableau de labels
+        Text players[] = new Text[]{
+                new Text("Domdompow"),
+                new Text("Diogoinou"),
+                new Text("Shadow78"),
+                new Text("TheGreat"),
+                new Text("Domdompow"),
+                new Text("Diogoinou"),
+                new Text("Shadow78"),
+                new Text("TheGreat"),
+                new Text("Domdompow"),
+                new Text("Diogoinou"),
+                new Text("Shadow78"),
+                new Text("TheGreat"),
+                new Text("Domdompow"),
+                new Text("Diogoinou"),
+                new Text("Shadow78"),
+                new Text("TheGreat")
+        };
 
-        /**
-         * The player list
-         */
-        // Pass it strings with username and score and boolean ready or not
-        PlayerLine line1 = new PlayerLine("Player1", "1234", true);
-        PlayerLine line2 = new PlayerLine("Player2", "0", true);
-        PlayerLine line3 = new PlayerLine("Player3", "0", false);
-        playerList.getChildren().addAll(line1, line2, line3);
+        Text scores[] = new Text[]{
+                new Text("1236"),
+                new Text("896"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0"),
+                new Text("0")
+        };
 
-        vbox.getChildren().addAll(playerList);
+
+        // Boucle d'affichage des joueurs dans la barre de gauche
+        for (int i = 0; i < players.length; i++) {
+
+            // PlayerLine
+            HBox playerline = new HBox(8);
+            playerline.setMinHeight(20);
+
+            // Username box
+            HBox usernameBox = new HBox(8);
+            usernameBox.setMinHeight(20);
+            usernameBox.setPrefWidth(200);
+
+            // Score Box
+            HBox scoreBox = new HBox();
+            scoreBox.setMinHeight(20);
+            scoreBox.setAlignment(Pos.TOP_RIGHT);
+
+            FxIconicsLabel icon =
+                    (FxIconicsLabel) new FxIconicsLabel.Builder(FxFontAwesome.Icons.faw_user)
+                            .size(20)
+                            .color(MaterialColor.WHITE)
+                            .build();
+
+            // Set the text properties
+            players[i].setFill(Color.WHITESMOKE);
+            players[i].setFont(Font.font("Open Sans Extrabold", FontWeight.NORMAL, 18));
+
+            // Score line
+            scores[i].setFill(Color.WHITESMOKE);
+            scores[i].setFont(Font.font("Open Sans Light", FontWeight.NORMAL, 18));
+            scores[i].setTextAlignment(TextAlignment.RIGHT);
+
+            usernameBox.getChildren().addAll(icon, players[i]);
+            scoreBox.getChildren().add(scores[i]);
+
+            playerline.getChildren().addAll(usernameBox, scoreBox);
+
+            vbox.getChildren().addAll(playerline);
+
+        }
+
         vbox.setPrefWidth(250);
-
-        /**
-         * The ready button
-         */
-        // Afficher uniquement au tout début.
-        Button btnReady = new Button("Prêt ?");
-        btnReady.setTextFill(Color.WHITE);
-        btnReady.setStyle("-fx-font-size:20px;-fx-background-color: #7f8c8d;");
-        btnReady.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                btnReady.setText("Prêt !");
-                btnReady.setStyle("-fx-font-size:20px;-fx-background-color: #40d47e;");
-                // TODO : Gestion du passage en ready
-            }
-        });
-        vbox.setAlignment(Pos.BASELINE_CENTER);
-        vbox.getChildren().add(btnReady);
-
         return vbox;
     }
 

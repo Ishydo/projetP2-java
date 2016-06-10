@@ -5,6 +5,8 @@ package networking.packets;
  */
 public class StatePacket extends BasePacket {
 
+    public EntityInfo player;
+
     public enum states {
         HELLO,
         READY,
@@ -17,8 +19,9 @@ public class StatePacket extends BasePacket {
 
     public StatePacket(){}
 
-    public StatePacket(states state) {
+    public StatePacket(EntityInfo player, states state) {
         super();
+        this.player = player;
         this.state = state;
     }
 
