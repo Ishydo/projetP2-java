@@ -1,5 +1,7 @@
 package networking;
 
+import networking.States.KListeners.KListenerClientNewGame;
+import networking.States.KListeners.KListenerServerNewGame;
 import networking.States.ServerStates.ServerNewGameState;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Server;
@@ -7,6 +9,7 @@ import networking.packets.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class KServer extends KBaseApp {
 
@@ -36,6 +39,7 @@ public class KServer extends KBaseApp {
         kryoSerializer.register(StatePacket.class);
         kryoSerializer.register(EntityInfo[].class);
         kryoSerializer.register(StatePacket.states.class);
+        server.addListener(new KListenerServerNewGame(this));
         server.start();
         server.bind(tcpPort, udpPort);
         endPoint = (EndPoint)server;
@@ -43,11 +47,11 @@ public class KServer extends KBaseApp {
     }
 
     public void run(){
-        currentState = new ServerNewGameState();
+        /*currentState = new ServerNewGameState();
         while(!stop){
             currentState.handleState(this);
             sleep();
-        }
+        }*/
     }
 
     public HashMap<String, EntityInfo> getPlayersInfo() {
@@ -56,5 +60,13 @@ public class KServer extends KBaseApp {
 
     public void setPlayersInfo(HashMap<String, EntityInfo> playersInfo) {
         this.playersInfo = playersInfo;
+    }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
     }
 }
