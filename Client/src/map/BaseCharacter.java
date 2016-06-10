@@ -4,6 +4,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import javax.swing.*;
+
 /**
  * Created by Bryan on 30.05.2016.
  */

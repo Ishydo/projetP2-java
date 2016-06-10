@@ -2,6 +2,7 @@ package networking.States.KListeners;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
+import com.sun.deploy.util.ArrayUtil;
 import networking.KBaseApp;
 import networking.KServer;
 import networking.packets.EntityInfo;
@@ -10,7 +11,7 @@ import networking.packets.RoundInfo;
 import networking.packets.StatePacket;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.*;
 
 /**
  * Created by diogo on 6/10/16.
@@ -43,21 +44,24 @@ public class KListenerServerNewGame extends KAbstractListener {
             if(pr.state == StatePacket.states.HELLO){
                 System.out.println("HELLO PACKET RECEIVED");
                 serverContext.getPlayersInfo().put(pr.player.uuid,pr.player);
-                serverContext.getServer().sendToAllTCP(new NewPlayerPacket(pr.player));
+                serverContext.getServer().sendToAllTCP(new NewPlayerPacket(serverContext.getPlayersInfo().values().toArray(new EntityInfo[serverContext.getPlayersInfo().size()])));
             }
             else if(pr.state == StatePacket.states.READY){
                 System.out.println("READY RECEIVED");
                 pr.player.ready = true;
                 serverContext.getPlayersInfo().put(pr.player.uuid,pr.player);
-                serverContext.getServer().sendToAllTCP(new NewPlayerPacket(pr.player, NewPlayerPacket.action.READY));
+                serverContext.getServer().sendToAllTCP(new NewPlayerPacket(pr.player));
             }
         }
+
+
         if (areAllPlayersReady() && ((KServer) context).getPlayersInfo().size() >= 2) {
             StatePacket p = new StatePacket(null,StatePacket.states.GO_TO_ON_STS);
             serverContext.getServer().sendToAllTCP(p);
             context.getEndPoint().removeListener(this);
             context.getEndPoint().addListener(new KListenerServerGameOn(context));
         }
+
         System.out.println(serverContext.getPlayersInfo());
     }
 
@@ -76,10 +80,19 @@ public class KListenerServerNewGame extends KAbstractListener {
     }
     private RoundInfo createGame(){
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, 30);
-        return new RoundInfo("First",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(calendar.getTime()),new EntityInfo[]{
-                new EntityInfo(),
-                new EntityInfo(),
-        });
+        calendar.add(Calendar.SECOND, 20);
+        return new RoundInfo("First",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(calendar.getTime()),randomChairs()
+        );
+    }
+
+    private int[] randomChairs(){
+        ArrayList<Integer> chairIndexes = new ArrayList<>();
+
+        for (int i = 0; i < 20 ; i++){
+            chairIndexes.add(new Integer(i));
+        }
+        Collections.shuffle(chairIndexes);
+
+        return chairIndexes.subList(0,7).stream().mapToInt(i -> i).toArray();
     }
 }

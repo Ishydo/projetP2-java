@@ -15,10 +15,11 @@ import java.util.concurrent.TimeUnit;
  * Created by diogo on 6/10/16.
  */
 public class KListenerClientGameOn extends KAbstractListener {
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     public KListenerClientGameOn(KBaseApp context) {
         super(context);
         client();
-        clientContext.setUpdateState(true);
+        clientContext.getClient().sendTCP(clientContext.getView().getPlayerInfo());
     }
 
     @Override
@@ -40,23 +41,25 @@ public class KListenerClientGameOn extends KAbstractListener {
                 clientContext.getView().onPlayersPosReceived(players);
             }
             //Sync
-            /*SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
             Date parsedDate = null;
-            boolean timeToShowChairs = false;
             try {
                 parsedDate = formatter.parse(players[0].getServerTime());
                 KClient.timeDelta = getDateDiff(parsedDate,new Date(), TimeUnit.MILLISECONDS);
-                timeToShowChairs = checkChairs(formatter.parse(client.getCurrentRound().getShowChairsAt()));
+                if(checkChairs(formatter.parse(clientContext.getCurrentRound().getShowChairsAt()))){
+                    if(clientContext.getView() != null){
+                        clientContext.getView().onTimeToShowChairs(clientContext.getCurrentRound().getChairs());
+                    }
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
-            }*/
+            }
         }
         connection.sendUDP(clientContext.getView().getPlayerInfo());
     }
 
     private boolean checkChairs(Date popDate){
         Calendar timeout = Calendar.getInstance();
-        Calendar realTime = Calendar.getInstance();
         timeout.add(Calendar.MILLISECOND,(int)-KClient.timeDelta);
         if(timeout.getTime().getTime() - popDate.getTime() > 0){
             return true;

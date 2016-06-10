@@ -6,11 +6,11 @@ package networking.packets;
 public class RoundInfo extends BasePacket {
     private String roundName;
     private String showChairsAt;
-    private EntityInfo[] chairs;
+    private int[] chairs;
 
     public RoundInfo(){}
 
-    public RoundInfo(String roundName, String showChairsAt, EntityInfo[] chairs) {
+    public RoundInfo(String roundName, String showChairsAt, int[] chairs) {
         this.roundName = roundName;
         this.showChairsAt = showChairsAt;
         this.chairs = chairs;
@@ -32,7 +32,7 @@ public class RoundInfo extends BasePacket {
         this.showChairsAt = showChairsAt;
     }
 
-    public EntityInfo[] getChairs() {
+    public int[] getChairs() {
         return chairs;
     }
 }

@@ -19,7 +19,7 @@ public class KListenerClientNewGame extends KAbstractListener {
     @Override
     public void connected(Connection connection) {
         super.connected(connection);
-        StatePacket p = new StatePacket(clientContext.getPlayer(),StatePacket.states.HELLO);
+        StatePacket p = new StatePacket(clientContext.getView().getPlayerInfo(),StatePacket.states.HELLO);
         connection.sendTCP(p);
         System.out.println("HELLO PACKET SENDED !");
     }
@@ -42,9 +42,9 @@ public class KListenerClientNewGame extends KAbstractListener {
             NewPlayerPacket npp = (NewPlayerPacket) o;
             if(clientContext.getView() != null){
                 if(npp.playerAction == NewPlayerPacket.action.CONNECTED)
-                    clientContext.getView().onNewPlayerConnected(npp.connectedPlayer);
+                    clientContext.getView().onNewPlayerConnected(npp.connectedPlayers);
                 else if(npp.playerAction == NewPlayerPacket.action.READY)
-                    clientContext.getView().onPlayerReady(npp.connectedPlayer);
+                    clientContext.getView().onPlayerReady(npp.playerWhosReady);
             }
         }
 

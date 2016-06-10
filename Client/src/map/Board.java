@@ -9,6 +9,8 @@ import javafx.scene.shape.Circle;
 import networking.KClient;
 import networking.KView;
 import networking.packets.EntityInfo;
+
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
@@ -31,12 +33,6 @@ public class Board extends Pane implements KView {
     public Board() throws ParserConfigurationException {
 
 
-        try {
-            netClient = new KClient(5555,5559,this);
-            netClient.start();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
 
         //Va lire le fichier et nous générer les tableaux pour nos éléments
         m = new parseMap();
@@ -58,13 +54,20 @@ public class Board extends Pane implements KView {
         }
 
 
-        player = new Player(UUID.randomUUID().toString(),100, 100, walls, m);
+        player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 100, walls, m);
+
 
 
         this.getChildren().addAll(chairs);
         this.getChildren().addAll(enemies);
         this.getChildren().add(player);
         move(player);
+
+        try {
+            netClient = new KClient(5555,5559,this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
    }
 
     public void moveCircleOnKeyPress(KeyCode code) {
@@ -140,12 +143,25 @@ public class Board extends Pane implements KView {
     }
 
     @Override
-    public void onNewPlayerConnected(EntityInfo player) {
-        System.out.println("NOUVEAU JOUEUR " + player.toString());
+    public void onNewPlayerConnected(EntityInfo[] player) {
+        System.out.println(player.length);
     }
 
     @Override
     public void onPlayerReady(EntityInfo player) {
         System.out.println("READY : " + player.toString());
+    }
+
+    @Override
+    public void onTimeToShowChairs(int[] chairsIndex) {
+        //System.out.println(chairsIndex);
+    }
+
+    public KClient getNetClient() {
+        return netClient;
+    }
+
+    public void setNetClient(KClient netClient) {
+        this.netClient = netClient;
     }
 }

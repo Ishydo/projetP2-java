@@ -48,10 +48,11 @@ public class Main extends Application {
         // The Top Bar (Main Actions)
         HBox menuTopBar = createMenuTopBar();
 
-        // The Left Bar (Players)
-        VBox leftBar = createLeftBar();
 
         Board board = new Board();
+        // The Left Bar (Players)
+        VBox leftBar = createLeftBar(board);
+
 
         // Pane central avec le jeu
         StackPane centerPane = new StackPane();
@@ -114,7 +115,7 @@ public class Main extends Application {
         return menuTopBar;
     }
 
-    private VBox createLeftBar() {
+    private VBox createLeftBar(Board board) {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10)); // Set all sides to 10
         vbox.setSpacing(8);              // Gap between nodes
@@ -170,6 +171,7 @@ public class Main extends Application {
                 btnReady.setText("Prêt !");
                 btnReady.setStyle("-fx-font-size:20px;-fx-background-color: #40d47e;");
                 // TODO : Gestion du passage en ready
+                board.getNetClient().sendReady();
             }
         });
         vbox.setAlignment(Pos.BASELINE_CENTER);
