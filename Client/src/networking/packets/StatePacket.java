@@ -17,6 +17,8 @@ public class StatePacket extends BasePacket {
 
     public states state;
 
+    public RoundInfo roundInfo;
+
     public StatePacket(){}
 
     public StatePacket(EntityInfo player, states state) {
