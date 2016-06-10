@@ -8,6 +8,7 @@ import networking.packets.EntityInfo;
 public interface KView {
     void onPlayersPosReceived(EntityInfo[] players);
     EntityInfo getPlayerInfo();
-    void onNewPlayerConnected(EntityInfo player);
+    void onNewPlayerConnected(EntityInfo[] players);
     void onPlayerReady(EntityInfo player);
+    void onTimeToShowChairs(int[] chairsIndex);
 }
