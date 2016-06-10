@@ -104,6 +104,9 @@ public class Board extends Pane {
         if (code == KeyCode.RIGHT) {
             player.RIGHT = true;
         }
+        if(code == KeyCode.R){
+            player.ready = true;
+        }
     }
 
     public void moveCircleOnKeyRelease(KeyCode code) {
