@@ -62,6 +62,7 @@ public class KListenerClientGameOn extends KAbstractListener {
                 clientContext.getView().onChairTaken(((blockChair) o).chairIndex);
             }
         }else if(o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.GO_TO_END_STS){
+            System.out.println("Etat fin");
             context.getEndPoint().removeListener(this);
             context.getEndPoint().addListener(new KListenerClientGameEnd(context));
         }
