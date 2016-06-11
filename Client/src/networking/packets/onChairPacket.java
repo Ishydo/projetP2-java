@@ -6,4 +6,5 @@ package networking.packets;
 public class onChairPacket {
     public int chairIndex;
     public String clientTime;
+    public EntityInfo playerOnChair;
 }

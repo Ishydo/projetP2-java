@@ -10,7 +10,7 @@ public class EntityInfo extends BasePacket {
     public float y=0;
     public String name="";
     public boolean ready = false;
-
+    public int score = 0;
 
     @Override
     public boolean equals(Object obj) {

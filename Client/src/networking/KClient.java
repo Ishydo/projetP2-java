@@ -43,7 +43,7 @@ public class KClient extends KBaseApp {
     }
 
     private void init() throws IOException {
-        client = new Client(3*8192, 3*2048);
+        client = new Client(100 * 8192, 3*2048);
         kryoSerializer = client.getKryo();
         kryoSerializer.register(String.class);
         kryoSerializer.register(BasePacket.class);
@@ -80,6 +80,9 @@ public class KClient extends KBaseApp {
     public void sendChairTaken(int index){
         onChairPacket chairPacket = new onChairPacket();
         chairPacket.chairIndex = index;
+
+        chairPacket.playerOnChair = view.getPlayerInfo();
+
         Calendar timeout = Calendar.getInstance();
         timeout.add(Calendar.MILLISECOND,(int)-KClient.timeDelta);
         chairPacket.clientTime = timeout.getTime().toString();

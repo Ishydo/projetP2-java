@@ -27,7 +27,7 @@ public class KServer extends KBaseApp {
     }
 
     private void init() throws IOException {
-        server = new Server(3 * 16384,3 * 2048);
+        server = new Server(100 * 16384,3 * 2048);
         kryoSerializer = server.getKryo();
         kryoSerializer.register(String.class);
         kryoSerializer.register(BasePacket.class);

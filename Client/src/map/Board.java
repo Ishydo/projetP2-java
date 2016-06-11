@@ -123,7 +123,7 @@ public class Board extends Pane implements KView {
                     player.move();
                 }
              }
-        }, 0, 20);
+        }, 0, 30);
     }
 
     @Override
@@ -156,9 +156,8 @@ public class Board extends Pane implements KView {
     @Override
     public void onNewPlayerConnected(EntityInfo[] player) {
         allPlayers.clear();
-        int i = 0;
-        for(i = 0; i < player.length; i++){
-            PlayerLine np = new PlayerLine(player[i].name, "0", player[i].ready);
+        for(int i = 0; i < player.length; i++){
+            PlayerLine np = new PlayerLine(player[i].name, "" + player[i].score, player[i].ready);
             allPlayers.add(np);
         }
 
@@ -191,13 +190,23 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onChairTaken(int index) {
-        //chairs.get(index).setOccupied(true);
+        chairs.get(index).setOccupied(true);
+    }
+
+    @Override
+    public void onGameStart() {
+        // Players can move
+        // Display a message
+    }
+
+    @Override
+    public void onGamEnd(EntityInfo[] players) {
+        onNewPlayerConnected(players);
     }
 
     private void updatePlayersList(){
         parent.thePlayersList.getChildren().clear();
-        int i = 0;
-        for(i = 0; i <= allPlayers.size()-1; i++){
+        for(int i = 0; i <= allPlayers.size()-1; i++){
             parent.thePlayersList.getChildren().add(allPlayers.get(i));
         }
     }

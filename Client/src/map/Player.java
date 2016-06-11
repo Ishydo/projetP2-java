@@ -31,13 +31,13 @@ public class Player extends BaseCharacter {
     @Override
     public void move(){
         if (UP)
-            setCenterY(getCenterY() - 2);
+            setCenterY(getCenterY() - 3);
         if (DOWN)
-            setCenterY(getCenterY() + 2);
+            setCenterY(getCenterY() + 3);
         if (LEFT)
-            setCenterX(getCenterX() - 2);
+            setCenterX(getCenterX() - 3);
         if (RIGHT)
-            setCenterX(getCenterX() + 2);
+            setCenterX(getCenterX() + 3);
 
 
         Bounds bp = getBoundsInParent();

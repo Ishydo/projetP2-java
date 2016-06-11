@@ -8,6 +8,8 @@ import networking.packets.blockChair;
 import networking.packets.onChairPacket;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by diogo on 6/10/16.
@@ -15,6 +17,9 @@ import java.text.SimpleDateFormat;
 public class KListenerServerGameOn extends KAbstractListener {
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+    int chairsTaken = 0;
+    ArrayList<EntityInfo> playersOnChair = new ArrayList<>();
 
     public KListenerServerGameOn(KBaseApp context) {
         super(context);
@@ -44,6 +49,12 @@ public class KListenerServerGameOn extends KAbstractListener {
             blockChair blockChair = new blockChair();
             blockChair.chairIndex = chairPacket.chairIndex;
             serverContext.getServer().sendToAllTCP(blockChair);
+            playersOnChair.add(chairPacket.playerOnChair);
+            if(playersOnChair.size() >= serverContext.getPlayersInfo().size()){
+                System.out.println("Game finished");
+                context.getEndPoint().removeListener(this);
+                context.getEndPoint().addListener(new KListenerServerGameEnd(context, playersOnChair));
+            }
         }
     }
 }

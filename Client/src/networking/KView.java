@@ -12,4 +12,6 @@ public interface KView {
     void onPlayerReady(EntityInfo player);
     void onTimeToShowChairs(int[] chairsIndex);
     void onChairTaken(int index);
+    void onGameStart();
+    void onGamEnd(EntityInfo[] players);
 }
