@@ -57,7 +57,9 @@ public class KListenerClientGameOn extends KAbstractListener {
                 e.printStackTrace();
             }
         }else if(o instanceof blockChair){
-
+            if(clientContext.getView() != null){
+                clientContext.getView().onChairTaken(((blockChair) o).chairIndex);
+            }
         }
         connection.sendUDP(clientContext.getView().getPlayerInfo());
     }

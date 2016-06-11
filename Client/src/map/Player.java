@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class Player extends BaseCharacter {
     int speed;
     parseMap m;
     ArrayList<Wall> walls;
-
+    ArrayList<Chair> chairs;
     public Player(String name, double x, double y, ArrayList<Wall> walls, parseMap m) {
         super(name, x, y);
         this.m = m;
@@ -46,7 +47,27 @@ public class Player extends BaseCharacter {
                 moveBack();
             }
         }
-
     }
 
+    public Chair isOnChair(){
+        if(chairs != null){
+            Bounds bp = getBoundsInParent();
+            for(Chair r : chairs){
+                Bounds br = r.getBoundsInParent();
+                if(bp.intersects(br)){
+                    return r;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    public ArrayList<Chair> getChairs() {
+        return chairs;
+    }
+
+    public void setChairs(ArrayList<Chair> chairs) {
+        this.chairs = chairs;
+    }
 }

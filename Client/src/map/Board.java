@@ -21,7 +21,7 @@ import java.util.TimerTask;
 
 public class Board extends Pane implements KView {
     private parseMap m;
-
+    private boolean freezePlayer = false;
     private Player player;
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Wall> walls = new ArrayList<>();
@@ -43,14 +43,11 @@ public class Board extends Pane implements KView {
             walls.add(new Wall(p.getX(),p.getY()));
         }
 
-        for(Point p : m.getTabSpawnPlayers()){
+        /*for(Point p : m.getTabSpawnPlayers()){
             enemies.add(new Enemy("Enemy", p.getX(), p.getY()));
-        }
-
-        /*for(Point p : m.getTabSpawnChairs()){
-            chairs.add(new Chair(p.getX(), p.getY()));
-            System.out.println("AHHAH");
         }*/
+
+
 
 
         player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 100, walls, m);
@@ -108,9 +105,14 @@ public class Board extends Pane implements KView {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                player.move();
-
-                    }
+                Chair c = player.isOnChair();
+                if(c != null && !c.isOccupied()){
+                    netClient.sendChairTaken(chairs.indexOf(c));
+                    freezePlayer = true;
+                }else if(!freezePlayer){
+                    player.move();
+                }
+             }
         }, 0, 50);
     }
 
@@ -160,11 +162,13 @@ public class Board extends Pane implements KView {
 
         Platform.runLater(() -> this.getChildren().addAll(chairs));
 
+        player.setChairs(chairs);
+
     }
 
     @Override
     public void onChairTaken(int index) {
-
+        chairs.get(index).setOccupied(true);
     }
 
     public KClient getNetClient() {
