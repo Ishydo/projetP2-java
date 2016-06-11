@@ -56,13 +56,12 @@ public class KListenerClientGameOn extends KAbstractListener {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            System.out.println("delta : " + KClient.timeDelta);
         }else if(o instanceof blockChair){
             if(clientContext.getView() != null){
                 clientContext.getView().onChairTaken(((blockChair) o).chairIndex);
             }
         }
-        connection.sendUDP(clientContext.getView().getPlayerInfo());
+        connection.sendTCP(clientContext.getView().getPlayerInfo());
     }
 
     private boolean checkChairs(Date popDate){
