@@ -23,7 +23,7 @@ public class KListenerServerGameEnd extends KAbstractListener {
         serverContext.getServer().sendToAllTCP(serverContext.getPlayersInfo().values().toArray(new EntityInfo[serverContext.getPlayersInfo().size()]));
         serverContext.getServer().sendToAllTCP(new StatePacket(null, StatePacket.states.GO_TO_NEW_STS));
         serverContext.getPlayersInfo().values().stream().map(i -> i.ready = false);
-        context.getEndPoint().removeListener(this);
+        //context.getEndPoint().removeListener(this);
         context.getEndPoint().addListener(new KListenerServerNewGame(context));
     }
 

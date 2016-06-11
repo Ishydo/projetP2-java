@@ -41,6 +41,7 @@ public class Board extends Pane implements KView {
     public void reinit(){
         player.setLayoutX(player.x);
         player.setLayoutY(player.y);
+        freezePlayer = false;
     }
 
     public Board(Main main) throws ParserConfigurationException {

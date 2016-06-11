@@ -17,7 +17,6 @@ public class KListenerClientGameEnd extends KAbstractListener {
     @Override
     public void received(Connection connection, Object o) {
         super.received(connection, o);
-        System.out.println("Pute" + o.toString());
         if(o instanceof EntityInfo[]){
             EntityInfo[] infos = (EntityInfo[]) o;
             if(clientContext.getView() != null){
@@ -25,7 +24,6 @@ public class KListenerClientGameEnd extends KAbstractListener {
             }
         }else if(o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.GO_TO_NEW_STS){
             System.out.println("Etat replay");
-
             context.getEndPoint().removeListener(this);
             context.getEndPoint().addListener(new KListenerClientNewGame(context));
         }
