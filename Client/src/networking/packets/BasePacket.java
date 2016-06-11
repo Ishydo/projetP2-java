@@ -16,6 +16,10 @@ public class BasePacket {
     protected String serverTime;
 
     public BasePacket() {
+        updateTime();
+    }
+
+    public void updateTime(){
         this.serverTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
     }
 

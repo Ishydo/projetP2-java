@@ -31,6 +31,7 @@ public class KListenerServerGameOn extends KAbstractListener {
         super.received(connection, o);
         if(o instanceof EntityInfo){
             EntityInfo e = (EntityInfo) o;
+            e.updateTime();
             serverContext.getPlayersInfo().put(e.uuid,e);
             connection.sendUDP(serverContext.getPlayersInfo().values().toArray(new EntityInfo[serverContext.getPlayersInfo().size()]));
         }else if(o instanceof onChairPacket){
