@@ -9,7 +9,7 @@ import networking.packets.EntityInfo;
 public class Enemy extends BaseCharacter {
     public Enemy(String name, double x, double y){
         super(name, x, y);
-        setFill(Color.RED);
+        setFill(Color.ORANGE);
     }
 
 
