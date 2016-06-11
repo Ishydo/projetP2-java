@@ -47,10 +47,10 @@ public class Board extends Pane implements KView {
             enemies.add(new Enemy("Enemy", p.getX(), p.getY()));
         }
 
-        for(Point p : m.getTabSpawnChairs()){
+        /*for(Point p : m.getTabSpawnChairs()){
             chairs.add(new Chair(p.getX(), p.getY()));
             System.out.println("AHHAH");
-        }
+        }*/
 
 
         player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 100, walls, m);
@@ -153,10 +153,13 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onTimeToShowChairs(int[] chairsIndex) {
+        ArrayList<Point> chairsList =  m.getTabSpawnChairs();
         for(int i = 0; i < chairsIndex.length; i++){
-            System.out.print(chairsIndex[i] + " , ");
+            chairs.add(new Chair(chairsList.get(chairsIndex[i]).getX(), chairsList.get(chairsIndex[i]).getY()));
         }
-        System.out.println();
+
+        Platform.runLater(() -> this.getChildren().addAll(chairs));
+
     }
 
     @Override
