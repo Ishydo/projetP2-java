@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import networking.KBaseApp;
 import networking.KClient;
 import networking.packets.EntityInfo;
+import networking.packets.blockChair;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * Created by diogo on 6/10/16.
  */
 public class KListenerClientGameOn extends KAbstractListener {
+    boolean chairShowed = false;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     public KListenerClientGameOn(KBaseApp context) {
         super(context);
@@ -41,19 +43,21 @@ public class KListenerClientGameOn extends KAbstractListener {
                 clientContext.getView().onPlayersPosReceived(players);
             }
             //Sync
-
             Date parsedDate = null;
             try {
                 parsedDate = formatter.parse(players[0].getServerTime());
                 KClient.timeDelta = getDateDiff(parsedDate,new Date(), TimeUnit.MILLISECONDS);
                 if(checkChairs(formatter.parse(clientContext.getCurrentRound().getShowChairsAt()))){
-                    if(clientContext.getView() != null){
+                    if(clientContext.getView() != null && !chairShowed){
                         clientContext.getView().onTimeToShowChairs(clientContext.getCurrentRound().getChairs());
+                        chairShowed = true;
                     }
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        }else if(o instanceof blockChair){
+
         }
         connection.sendUDP(clientContext.getView().getPlayerInfo());
     }

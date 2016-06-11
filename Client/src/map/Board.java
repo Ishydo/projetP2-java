@@ -17,6 +17,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.Timer;
+import java.util.TimerTask;
+
 
 
 public class Board extends Pane implements KView {
@@ -62,10 +64,11 @@ public class Board extends Pane implements KView {
             enemies.add(new Enemy("Enemy", p.getX(), p.getY()));
         }
 
-        for(Point p : m.getTabSpawnChairs()){
+        /*for(Point p : m.getTabSpawnChairs()){
             chairs.add(new Chair(p.getX(), p.getY()));
-            //System.out.println("AHHAH");
-        }
+            System.out.println("AHHAH");
+        }*/
+
 
 
         player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 100, walls, m);
@@ -172,7 +175,16 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onTimeToShowChairs(int[] chairsIndex) {
-        //System.out.println(chairsIndex);
+        ArrayList<Point> chairsList =  m.getTabSpawnChairs();
+        for(int i = 0; i < chairsIndex.length; i++){
+            chairs.add(new Chair(chairsList.get(chairsIndex[i]).getX(), chairsList.get(chairsIndex[i]).getY()));
+        }
+        Platform.runLater(() -> this.getChildren().addAll(chairs));
+    }
+
+    @Override
+    public void onChairTaken(int index) {
+
     }
 
     private void updatePlayersList(){
