@@ -63,7 +63,7 @@ public class Main extends Application {
         centerPane.getChildren().addAll(board, intro);
 
         // Opacity du Board
-        board.setOpacity(0.5);
+        //board.setOpacity(0.5);
 
         // Transition pour le text
         /*FadeTransition ft = new FadeTransition(Duration.millis(3000), board);
@@ -126,7 +126,7 @@ public class Main extends Application {
         // Use style classes to set properties previously set above
         //vbox.getStyleClass().addAll("pane", "vbox");
 
-        vbox.setStyle("-fx-background-color: #f39c12;");
+        vbox.setStyle("-fx-background-color: #7f8c8d;");
 
         // Titre du jeu
         Text gameName = new Text("Kys FM");

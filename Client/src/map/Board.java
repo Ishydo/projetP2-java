@@ -56,13 +56,13 @@ public class Board extends Pane implements KView {
         //Donne un fond noir au board.
         this.setStyle("-fx-background-color: black;");
         //Affiche les murs.
-        this.getChildren().add(new ImageView("/background.png"));
+        this.getChildren().add(new ImageView("/newmap2.png"));
         for (Point p : m.getTabSpawnWall()) {
             walls.add(new Wall(p.getX(),p.getY()));
         }
 
 
-        player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 100, walls, m);
+        player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 120, walls, m);
 
         this.getChildren().addAll(chairs);
         this.getChildren().addAll(enemies);
@@ -123,7 +123,7 @@ public class Board extends Pane implements KView {
                     player.move();
                 }
              }
-        }, 0, 50);
+        }, 0, 20);
     }
 
     @Override

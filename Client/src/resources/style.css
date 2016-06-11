@@ -1,0 +1,25 @@
+.chair {
+    -fx-background-color: #2980b9;
+    -fx-border-width: 1px;
+    -fx-background-image: url("/chair.png");
+    -fx-background-position: left top, center;
+    -fx-background-repeat: no-repeat;
+}
+
+.player {
+    -fx-background-color: #2980b9;
+    -fx-background-image: url("/player.png");
+    -fx-background-position: left top, center;
+    -fx-background-repeat: no-repeat;
+}
+
+.enemy{
+    -fx-background-color: #2980b9;
+    -fx-background-image: url("/enemy.png");
+    -fx-background-position: left top, center;
+    -fx-background-repeat: no-repeat;
+}
+
+.occupied{
+    -fx-background-color: red;
+}

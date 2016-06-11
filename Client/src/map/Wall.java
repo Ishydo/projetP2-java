@@ -13,5 +13,7 @@ public class Wall extends StackPane {
         this.y = y;
         setLayoutX(this.x);
         setLayoutY(this.y);
+        setWidth(16);
+        setHeight(16);
     }
 }
