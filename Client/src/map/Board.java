@@ -180,7 +180,6 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onTimeToShowChairs(int[] chairsIndex) {
-        System.out.println("SHOW THE FUCKING CHAIRS");
         ArrayList<Point> chairsList =  m.getTabSpawnChairs();
         for(int i = 0; i < chairsIndex.length; i++){
             chairs.add(new Chair(chairsList.get(chairsIndex[i]).getX(), chairsList.get(chairsIndex[i]).getY()));
