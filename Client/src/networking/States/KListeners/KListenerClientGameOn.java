@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import networking.KBaseApp;
 import networking.KClient;
 import networking.packets.EntityInfo;
+import networking.packets.StatePacket;
 import networking.packets.blockChair;
 
 import java.text.ParseException;
@@ -60,6 +61,9 @@ public class KListenerClientGameOn extends KAbstractListener {
             if(clientContext.getView() != null){
                 clientContext.getView().onChairTaken(((blockChair) o).chairIndex);
             }
+        }else if(o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.GO_TO_END_STS){
+            context.getEndPoint().removeListener(this);
+            context.getEndPoint().addListener(new KListenerClientGameEnd(context));
         }
         connection.sendTCP(clientContext.getView().getPlayerInfo());
     }

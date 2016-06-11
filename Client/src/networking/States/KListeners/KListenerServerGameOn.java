@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import networking.KBaseApp;
 import networking.packets.EntityInfo;
+import networking.packets.StatePacket;
 import networking.packets.blockChair;
 import networking.packets.onChairPacket;
 
@@ -52,6 +53,7 @@ public class KListenerServerGameOn extends KAbstractListener {
             playersOnChair.add(chairPacket.playerOnChair);
             if(playersOnChair.size() >= serverContext.getPlayersInfo().size()){
                 System.out.println("Game finished");
+                connection.sendTCP(new StatePacket(null, StatePacket.states.GO_TO_END_STS));
                 context.getEndPoint().removeListener(this);
                 context.getEndPoint().addListener(new KListenerServerGameEnd(context, playersOnChair));
             }
