@@ -21,6 +21,7 @@ public class EntityInfo extends BasePacket {
         }
     }
 
+
     @Override
     public String toString() {
         return "EntityInfo{" +
@@ -28,6 +29,7 @@ public class EntityInfo extends BasePacket {
                 ", y=" + y +
                 ", name='" + name + '\'' +
                 ", ready=" + ready +
+                ", score=" + score +
                 '}';
     }
 }

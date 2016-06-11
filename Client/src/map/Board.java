@@ -158,6 +158,7 @@ public class Board extends Pane implements KView {
         e.name = player.getName();
         e.x = (float)player.getCenterX();
         e.y = (float)player.getCenterY();
+        e.score = player.score;
         return e;
     }
 
@@ -165,6 +166,9 @@ public class Board extends Pane implements KView {
     public void onNewPlayerConnected(EntityInfo[] player) {
         allPlayers.clear();
         for(int i = 0; i < player.length; i++){
+            if(player[i].name.equals(this.player.name)){
+                this.player.score = player[i].score;
+            }
             PlayerLine np = new PlayerLine(player[i].name, "" + player[i].score, player[i].ready);
             allPlayers.add(np);
         }
@@ -177,7 +181,7 @@ public class Board extends Pane implements KView {
     public void onPlayerReady(EntityInfo player) {
         for(int i = 0; i < allPlayers.size(); i++){
             if(allPlayers.get(i).playername.textProperty().getValue().equals(player.name)){
-                PlayerLine np = new PlayerLine(player.name, "0", player.ready);
+                PlayerLine np = new PlayerLine(player.name, "" + player.score, player.ready);
                 allPlayers.remove(i);
                 allPlayers.add(np);
             }

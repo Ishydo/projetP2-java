@@ -21,6 +21,8 @@ public class Player extends BaseCharacter {
     parseMap m;
     ArrayList<Wall> walls;
     ArrayList<Chair> chairs;
+    public int score=0;
+
     public Player(String name, double x, double y, ArrayList<Wall> walls, parseMap m) {
         super(name, x, y);
         this.m = m;
