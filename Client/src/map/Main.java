@@ -78,6 +78,7 @@ public class Main extends Application {
 
         // The scene taking the MainLayout
         Scene scene = new Scene(mainLayout, 1320, 800);
+        scene.getStylesheets().add("/style.css");
 
         scene.addEventFilter(KeyEvent.KEY_PRESSED,
                 event -> board.moveCircleOnKeyPress(event.getCode()));
