@@ -13,15 +13,15 @@ public class BasePacket {
 
     public String uuid = KBaseApp.uuid;
 
-    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
 
     protected String serverTime;
 
     public BasePacket() {
-        updateTime();
+        updateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"));
     }
 
-    public void updateTime(){
+    public void updateTime(SimpleDateFormat formatter){
         this.serverTime = formatter.format(new Date());
     }
 

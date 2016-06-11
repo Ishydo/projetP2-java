@@ -7,10 +7,15 @@ import networking.packets.EntityInfo;
 import networking.packets.blockChair;
 import networking.packets.onChairPacket;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by diogo on 6/10/16.
  */
 public class KListenerServerGameOn extends KAbstractListener {
+
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
     public KListenerServerGameOn(KBaseApp context) {
         super(context);
         server();
@@ -31,7 +36,7 @@ public class KListenerServerGameOn extends KAbstractListener {
         super.received(connection, o);
         if(o instanceof EntityInfo){
             EntityInfo e = (EntityInfo) o;
-            e.updateTime();
+            e.updateTime(formatter);
             serverContext.getPlayersInfo().put(e.uuid,e);
             connection.sendUDP(serverContext.getPlayersInfo().values().toArray(new EntityInfo[serverContext.getPlayersInfo().size()]));
         }else if(o instanceof onChairPacket){

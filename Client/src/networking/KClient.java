@@ -7,8 +7,12 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.EndPoint;
 import javax.swing.JOptionPane;
 import java.io.IOException;
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by diogo on 5/23/16.
@@ -55,6 +59,11 @@ public class KClient extends KBaseApp {
         kryoSerializer.register(NewPlayerPacket.action.class);
         kryoSerializer.register(int[].class);
         kryoSerializer.register(SimpleDateFormat.class);
+        kryoSerializer.register(GregorianCalendar.class);
+        kryoSerializer.register(Date.class);
+        kryoSerializer.register(DateFormatSymbols.class);
+        kryoSerializer.register(String[].class);
+        kryoSerializer.register(Locale.class);
         client.addListener(new KListenerClientNewGame(this));
         client.start();
         client.connect(5000, JOptionPane.showInputDialog(null,"Entrez l'ip"), tcpPort, udpPort);

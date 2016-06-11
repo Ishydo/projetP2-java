@@ -7,9 +7,9 @@ import com.esotericsoftware.kryonet.Server;
 import networking.packets.*;
 
 import java.io.IOException;
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class KServer extends KBaseApp {
 
@@ -43,6 +43,11 @@ public class KServer extends KBaseApp {
         kryoSerializer.register(NewPlayerPacket.action.class);
         kryoSerializer.register(int[].class);
         kryoSerializer.register(SimpleDateFormat.class);
+        kryoSerializer.register(GregorianCalendar.class);
+        kryoSerializer.register(Date.class);
+        kryoSerializer.register(DateFormatSymbols.class);
+        kryoSerializer.register(String[].class);
+        kryoSerializer.register(Locale.class);
         server.addListener(new KListenerServerNewGame(this));
         server.start();
         server.bind(tcpPort, udpPort);
