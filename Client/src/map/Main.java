@@ -26,8 +26,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 // ADD BUTTON TO BOTTOM
-
 public class Main extends Application {
+
+
+    public VBox thePlayersList;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -38,7 +40,9 @@ public class Main extends Application {
         AudioClip ac = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
         ac.play();
 
-        // Bordure pour zone de jeu
+
+        // The playerlist instanciation
+        thePlayersList = new VBox();
 
         Parent root = FXMLLoader.load(getClass().getResource("../resources/sample.fxml"));
 
@@ -48,8 +52,7 @@ public class Main extends Application {
         // The Top Bar (Main Actions)
         HBox menuTopBar = createMenuTopBar();
 
-
-        Board board = new Board();
+        Board board = new Board(this);
         // The Left Bar (Players)
         VBox leftBar = createLeftBar(board);
 
@@ -144,18 +147,7 @@ public class Main extends Application {
 
         vbox.getChildren().addAll(gameName, roomName, separator, playersTxt);
 
-        VBox playerList = new VBox();
-
-        /**
-         * The player list
-         */
-        // Pass it strings with username and score and boolean ready or not
-        PlayerLine line1 = new PlayerLine("Player1", "1234", true);
-        PlayerLine line2 = new PlayerLine("Player2", "0", true);
-        PlayerLine line3 = new PlayerLine("Player3", "0", false);
-        playerList.getChildren().addAll(line1, line2, line3);
-
-        vbox.getChildren().addAll(playerList);
+        vbox.getChildren().addAll(thePlayersList);
         vbox.setPrefWidth(250);
 
         /**
