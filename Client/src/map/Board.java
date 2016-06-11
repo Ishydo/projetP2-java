@@ -168,7 +168,14 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onPlayerReady(EntityInfo player) {
-
+        for(int i = 0; i < allPlayers.size(); i++){
+            if(allPlayers.get(i).playername.textProperty().getValue().equals(player.name)){
+                PlayerLine np = new PlayerLine(player.name, "0", player.ready);
+                allPlayers.remove(i);
+                allPlayers.add(np);
+            }
+        }
+        Platform.runLater(() -> updatePlayersList());
     }
 
     @Override

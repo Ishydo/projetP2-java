@@ -60,7 +60,10 @@ public class KClient extends KBaseApp {
     }
 
     public void sendReady(){
-        client.sendTCP(new StatePacket(player,StatePacket.states.READY));
+        if(view != null){
+
+            client.sendTCP(new StatePacket(view.getPlayerInfo(),StatePacket.states.READY));
+        }
     }
 
     public void sendChairTaken(int index){
