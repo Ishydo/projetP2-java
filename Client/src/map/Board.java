@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Circle;
 import networking.KClient;
 import networking.KView;
@@ -14,25 +15,38 @@ import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
 
 
 public class Board extends Pane implements KView {
-    private parseMap m;
 
+    private parseMap m;
     private Player player;
+
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Wall> walls = new ArrayList<>();
     private ArrayList<Chair> chairs = new ArrayList<>();
+
+    // All players in the game
+    private ArrayList<PlayerLine> allPlayers = new ArrayList<>();
+    private Map<String, BaseCharacter> playersMap = new HashMap<>();
+
     private KClient netClient;
+    private Main parent;
 
 
-    public Board() throws ParserConfigurationException {
+    public Board(Main main) throws ParserConfigurationException {
 
 
+        /**
+         * Music
+         */
+        AudioClip ac = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
+        ac.play();
+
+        // Récupération du main pour mise à jour des éléments visuels
+        this.parent = main;
 
         //Va lire le fichier et nous générer les tableaux pour nos éléments
         m = new parseMap();
@@ -50,13 +64,11 @@ public class Board extends Pane implements KView {
 
         for(Point p : m.getTabSpawnChairs()){
             chairs.add(new Chair(p.getX(), p.getY()));
-            System.out.println("AHHAH");
+            //System.out.println("AHHAH");
         }
 
 
         player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 100, walls, m);
-
-
 
         this.getChildren().addAll(chairs);
         this.getChildren().addAll(enemies);
@@ -144,17 +156,30 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onNewPlayerConnected(EntityInfo[] player) {
-        System.out.println(player.length);
+        allPlayers.clear();
+        int i = 0;
+        for(i = 0; i < player.length; i++){
+            PlayerLine np = new PlayerLine(player[i].name, "0", player[i].ready);
+            allPlayers.add(np);
+        }
+        updatePlayersList();
     }
 
     @Override
     public void onPlayerReady(EntityInfo player) {
-        System.out.println("READY : " + player.toString());
+
     }
 
     @Override
     public void onTimeToShowChairs(int[] chairsIndex) {
         //System.out.println(chairsIndex);
+    }
+
+    private void updatePlayersList(){
+        int i = 0;
+        for(i = 0; i <= allPlayers.size()-1; i++){
+            parent.thePlayersList.getChildren().add(allPlayers.get(i));
+        }
     }
 
     public KClient getNetClient() {
