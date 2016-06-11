@@ -13,6 +13,8 @@ public class BasePacket {
 
     public String uuid = KBaseApp.uuid;
 
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
     protected String serverTime;
 
     public BasePacket() {
@@ -20,7 +22,7 @@ public class BasePacket {
     }
 
     public void updateTime(){
-        this.serverTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+        this.serverTime = formatter.format(new Date());
     }
 
     public String getServerTime() {
