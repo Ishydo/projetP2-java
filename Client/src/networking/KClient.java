@@ -43,7 +43,7 @@ public class KClient extends KBaseApp {
     }
 
     private void init() throws IOException {
-        client = new Client();
+        client = new Client(3*8192, 3*2048);
         kryoSerializer = client.getKryo();
         kryoSerializer.register(String.class);
         kryoSerializer.register(BasePacket.class);
