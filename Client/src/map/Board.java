@@ -38,9 +38,12 @@ public class Board extends Pane implements KView {
     private KClient netClient;
     private Main parent;
 
+    public void reinit(){
+        player.setLayoutX(player.x);
+        player.setLayoutY(player.y);
+    }
 
     public Board(Main main) throws ParserConfigurationException {
-
 
         /**
          * Music
@@ -200,8 +203,9 @@ public class Board extends Pane implements KView {
     }
 
     @Override
-    public void onGamEnd(EntityInfo[] players) {
+    public void onGameEnd(EntityInfo[] players) {
         onNewPlayerConnected(players);
+        reinit();
     }
 
     private void updatePlayersList(){
@@ -210,6 +214,8 @@ public class Board extends Pane implements KView {
             parent.thePlayersList.getChildren().add(allPlayers.get(i));
         }
     }
+
+
 
     public KClient getNetClient() {
         return netClient;

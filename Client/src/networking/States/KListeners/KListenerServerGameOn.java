@@ -51,9 +51,9 @@ public class KListenerServerGameOn extends KAbstractListener {
             blockChair.chairIndex = chairPacket.chairIndex;
             serverContext.getServer().sendToAllTCP(blockChair);
             playersOnChair.add(chairPacket.playerOnChair);
-            if(playersOnChair.size() >= serverContext.getPlayersInfo().size()){
+            if(playersOnChair.size() >= serverContext.getPlayersInfo().size() - 1){
                 System.out.println("Game finished");
-                connection.sendTCP(new StatePacket(null, StatePacket.states.GO_TO_END_STS));
+                serverContext.getServer().sendToAllTCP(new StatePacket(null, StatePacket.states.GO_TO_END_STS));
                 context.getEndPoint().removeListener(this);
                 context.getEndPoint().addListener(new KListenerServerGameEnd(context, playersOnChair));
             }

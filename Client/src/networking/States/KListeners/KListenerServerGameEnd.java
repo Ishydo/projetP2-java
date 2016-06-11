@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import networking.KBaseApp;
 import networking.packets.EntityInfo;
+import networking.packets.StatePacket;
 
 import java.util.ArrayList;
 
@@ -19,17 +20,21 @@ public class KListenerServerGameEnd extends KAbstractListener {
         this.playersOnChairs = playersOnChairs;
         server();
         calculateScore();
-        serverContext.getServer().sendToAllTCP(serverContext.getPlayersInfo());
-    }
-
-    @Override
-    public void received(Connection connection, Object o) {
-        super.received(connection, o);
+        serverContext.getServer().sendToAllTCP(serverContext.getPlayersInfo().values().toArray(new EntityInfo[serverContext.getPlayersInfo().size()]));
+        serverContext.getServer().sendToAllTCP(new StatePacket(null, StatePacket.states.GO_TO_NEW_STS));
+        serverContext.getPlayersInfo().values().stream().map(i -> i.ready = false);
+        context.getEndPoint().removeListener(this);
+        context.getEndPoint().addListener(new KListenerServerNewGame(context));
     }
 
     private void calculateScore(){
         for(int i=1; i <= playersOnChairs.size(); i++){
-            playersOnChairs.get(i).score += i * 10;
+            serverContext.getPlayersInfo().get(playersOnChairs.get(i-1).uuid).score += i * 10;
         }
     }
+
+
+
+
+
 }
