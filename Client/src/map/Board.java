@@ -161,7 +161,9 @@ public class Board extends Pane implements KView {
             PlayerLine np = new PlayerLine(player[i].name, "0", player[i].ready);
             allPlayers.add(np);
         }
-        updatePlayersList();
+
+        Platform.runLater(() -> updatePlayersList());
+
     }
 
     @Override
@@ -186,6 +188,7 @@ public class Board extends Pane implements KView {
     }
 
     private void updatePlayersList(){
+        parent.thePlayersList.getChildren().clear();
         int i = 0;
         for(i = 0; i <= allPlayers.size()-1; i++){
             parent.thePlayersList.getChildren().add(allPlayers.get(i));
