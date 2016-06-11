@@ -56,6 +56,7 @@ public class KListenerClientGameOn extends KAbstractListener {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            System.out.println("delta : " + KClient.timeDelta);
         }else if(o instanceof blockChair){
             if(clientContext.getView() != null){
                 clientContext.getView().onChairTaken(((blockChair) o).chairIndex);

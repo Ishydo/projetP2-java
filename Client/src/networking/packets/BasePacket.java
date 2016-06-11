@@ -4,6 +4,7 @@ import networking.KBaseApp;
 import networking.KClient;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -22,7 +23,7 @@ public class BasePacket {
     }
 
     public void updateTime(SimpleDateFormat formatter){
-        this.serverTime = formatter.format(new Date());
+        this.serverTime = formatter.format(Calendar.getInstance().getTime());
     }
 
     public String getServerTime() {

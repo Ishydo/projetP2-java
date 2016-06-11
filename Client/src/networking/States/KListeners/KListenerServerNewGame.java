@@ -87,10 +87,10 @@ public class KListenerServerNewGame extends KAbstractListener {
 
     private int[] randomChairs(){
         ArrayList<Integer> chairIndexes = new ArrayList<>();
-        for (int i = 0; i < 12 ; i++){
+        for (int i = 0; i < 31 ; i++){
             chairIndexes.add(new Integer(i));
         }
         Collections.shuffle(chairIndexes);
-        return chairIndexes.subList(0,5).stream().mapToInt(i -> i).toArray();
+        return chairIndexes.subList(0,serverContext.getPlayersInfo().size()-1).stream().mapToInt(i -> i).toArray();
     }
 }
