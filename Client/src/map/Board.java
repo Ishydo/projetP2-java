@@ -191,7 +191,7 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onChairTaken(int index) {
-        chairs.get(index).setOccupied(true);
+        //chairs.get(index).setOccupied(true);
     }
 
     private void updatePlayersList(){

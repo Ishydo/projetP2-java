@@ -14,7 +14,6 @@ public class Chair extends StackPane {
     Pane p;
     public Chair(double x, double y){
         Rectangle r = new Rectangle(32, 32);
-        r.setFill(Color.RED);
         p = new Pane();
         p.getStyleClass().add("chair");
         this.getChildren().addAll(r, p);
@@ -34,7 +33,7 @@ public class Chair extends StackPane {
         this.occupied = occupied;
 
         if(occupied){
-            p.getStyleClass().add("occupied");
+            //p.getStyleClass().add("occupied");
         }
     }
 }
