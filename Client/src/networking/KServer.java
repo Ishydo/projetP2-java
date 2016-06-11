@@ -7,6 +7,7 @@ import com.esotericsoftware.kryonet.Server;
 import networking.packets.*;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -41,6 +42,7 @@ public class KServer extends KBaseApp {
         kryoSerializer.register(NewPlayerPacket.class);
         kryoSerializer.register(NewPlayerPacket.action.class);
         kryoSerializer.register(int[].class);
+        kryoSerializer.register(SimpleDateFormat.class);
         server.addListener(new KListenerServerNewGame(this));
         server.start();
         server.bind(tcpPort, udpPort);
