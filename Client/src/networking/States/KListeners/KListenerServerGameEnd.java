@@ -28,8 +28,8 @@ public class KListenerServerGameEnd extends KAbstractListener {
     }
 
     private void calculateScore(){
-        for(int i=1; i <= playersOnChairs.size(); i++){
-            serverContext.getPlayersInfo().get(playersOnChairs.get(i-1).uuid).score += i * 10;
+        for(int i=0; i < playersOnChairs.size(); i++){
+            serverContext.getPlayersInfo().get(playersOnChairs.get(i).uuid).score += (playersOnChairs.size() - i) * 10;
         }
     }
 
