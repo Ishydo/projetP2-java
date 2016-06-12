@@ -31,8 +31,8 @@ public class TitlePane extends StackPane {
 
         vb.setStyle("-fx-background-color: #000;");
         vb.setAlignment(Pos.CENTER);
-        vb.setMaxWidth(600);
-        vb.setMaxHeight(200);
+        vb.setMinWidth(1072);
+        vb.setMinHeight(800);
 
         vb.getChildren().addAll(main, sec);
 

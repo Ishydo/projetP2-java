@@ -1,12 +1,15 @@
 package map;
 
 
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import networking.KClient;
 import networking.KView;
 import networking.packets.EntityInfo;
@@ -41,6 +44,14 @@ public class Board extends Pane implements KView {
     private AudioClip music = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
     private AudioClip win = new AudioClip(getClass().getClassLoader().getResource("win.mp3").toString());
 
+    private TitlePane startGameMsg = new TitlePane("Préparez-vous à jouer !", "En attente des joueurs pour la première partie...");
+    private TitlePane newGameMsg = new TitlePane("Fin de la manche !", "En attente des joueurs pour la suivante...");
+    private FadeTransition fadeNewGameMsgIn = new FadeTransition(Duration.millis(1000), newGameMsg);
+    private FadeTransition fadeNewGameMsgOut = new FadeTransition(Duration.millis(1000), newGameMsg);
+    private FadeTransition fadeStartGameMsgOut = new FadeTransition(Duration.millis(1000), startGameMsg);
+
+    private int manche = 0;
+
     // Relance la partie
     public void reinit(){
 
@@ -62,8 +73,18 @@ public class Board extends Pane implements KView {
 
         //Va lire le fichier et nous générer les tableaux pour nos éléments
         m = new parseMap();
+
+        // In and Out animations fade
+        fadeNewGameMsgIn.setFromValue(0.0);
+        fadeNewGameMsgIn.setToValue(1.0);
+        fadeNewGameMsgOut.setFromValue(1.0);
+        fadeNewGameMsgOut.setToValue(0.0);
+        fadeStartGameMsgOut.setFromValue(1.0);
+        fadeStartGameMsgOut.setToValue(0.0);
+
         //Donne un fond noir au board.
         this.setStyle("-fx-background-color: black;");
+
         //Affiche les murs.
         this.getChildren().add(new ImageView("/newmap2.png"));
         for (Point p : m.getTabSpawnWall()) {
@@ -77,6 +98,11 @@ public class Board extends Pane implements KView {
         this.getChildren().addAll(chairs);
         this.getChildren().addAll(enemies);
         this.getChildren().add(player);
+
+        newGameMsg.setOpacity(0);
+        this.getChildren().add(newGameMsg);
+        this.getChildren().add(startGameMsg);
+
         move(player);
 
         try {
@@ -209,8 +235,17 @@ public class Board extends Pane implements KView {
     @Override
     public void onGameStart() {
         // Relance la musique
+        manche++;
         music.play();
         System.out.println("Le jeu commence !");
+
+       if(manche > 1){
+            Platform.runLater(() -> fadeNewGameMsgOut.play());
+        }else{
+           Platform.runLater(() -> fadeStartGameMsgOut.play());
+       }
+
+
         freezePlayer = false;
     }
 
@@ -218,6 +253,7 @@ public class Board extends Pane implements KView {
     public void onGameEnd(EntityInfo[] players) {
         freezePlayer = true;
         onNewPlayerConnected(players);
+        Platform.runLater(() -> fadeNewGameMsgIn.play());
         reinit();
     }
 
@@ -228,12 +264,9 @@ public class Board extends Pane implements KView {
         }
     }
 
-
-
     public KClient getNetClient() {
         return netClient;
     }
-
     public void setNetClient(KClient netClient) {
         this.netClient = netClient;
     }
