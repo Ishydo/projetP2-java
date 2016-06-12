@@ -15,7 +15,7 @@ public class EntityInfo extends BasePacket {
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Enemy){
-            return this.name.equals(((Enemy) obj).getName());
+            return this.uuid.equals(((Enemy) obj).getUuid());
         }else{
             return super.equals(obj);
         }

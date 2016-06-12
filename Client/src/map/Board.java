@@ -72,6 +72,7 @@ public class Board extends Pane implements KView {
 
 
         player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 120, walls, m);
+        player.setUuid(KClient.uuid);
 
         this.getChildren().addAll(chairs);
         this.getChildren().addAll(enemies);
@@ -131,12 +132,13 @@ public class Board extends Pane implements KView {
     public void onPlayersPosReceived(EntityInfo[] players) {
         Platform.runLater(() -> {
             for(EntityInfo ei : players){
-                if(!player.name.equals(ei.name)){
+                if(!player.getUuid().equals(ei.uuid)){
                     int index = enemies.indexOf(ei);
                     if(index != -1) {
                         enemies.get(index).moveTo(ei.x, ei.y);
                     }else {
                         Enemy e = new Enemy(ei.name,ei.x,ei.y);
+                        e.setUuid(ei.uuid);
                         enemies.add(e);
                         this.getChildren().add(e);
                     }
@@ -159,10 +161,10 @@ public class Board extends Pane implements KView {
     public void onNewPlayerConnected(EntityInfo[] player) {
         allPlayers.clear();
         for(int i = 0; i < player.length; i++){
-            if(player[i].name.equals(this.player.name)){
+            if(player[i].uuid.equals(this.player.getUuid())){
                 this.player.score = player[i].score;
             }
-            PlayerLine np = new PlayerLine(player[i].name, "" + player[i].score, player[i].ready);
+            PlayerLine np = new PlayerLine(player[i].name,player[i].uuid, "" + player[i].score, player[i].ready);
             allPlayers.add(np);
         }
 
@@ -173,8 +175,8 @@ public class Board extends Pane implements KView {
     @Override
     public void onPlayerReady(EntityInfo player) {
         for(int i = 0; i < allPlayers.size(); i++){
-            if(allPlayers.get(i).playername.textProperty().getValue().equals(player.name)){
-                PlayerLine np = new PlayerLine(player.name, "" + player.score, player.ready);
+            if(allPlayers.get(i).uuid.equals(player.uuid)){
+                PlayerLine np = new PlayerLine(player.name,player.uuid, "" + player.score, player.ready);
                 allPlayers.remove(i);
                 allPlayers.add(np);
             }

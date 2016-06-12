@@ -19,9 +19,11 @@ public class PlayerLine extends HBox {
     Text playername;
     Text score;
     boolean ready;
+    String uuid;
 
-    public PlayerLine(String _username, String _score, boolean ready){
+    public PlayerLine(String _username,String _uuid, String _score, boolean ready){
 
+        uuid = _uuid;
         playername = new Text(_username);
         score = new Text(_score);
 
