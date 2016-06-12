@@ -39,6 +39,7 @@ public class Board extends Pane implements KView {
     private Main parent;
 
     private AudioClip music = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
+    private AudioClip win = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
 
     // Relance la partie
     public void reinit(){
@@ -216,6 +217,7 @@ public class Board extends Pane implements KView {
     @Override
     public void onChairTaken(int index) {
         // Effet musical
+        Platform.runLater(() -> win.play());
         chairs.get(index).setOccupied(true);
     }
 
@@ -231,8 +233,6 @@ public class Board extends Pane implements KView {
         onNewPlayerConnected(players);
         reinit();
     }
-
-
 
     private void updatePlayersList(){
         parent.thePlayersList.getChildren().clear();
