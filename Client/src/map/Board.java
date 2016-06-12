@@ -38,10 +38,22 @@ public class Board extends Pane implements KView {
     private KClient netClient;
     private Main parent;
 
+    private AudioClip music = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
+
+    // Relance la partie
     public void reinit(){
+
+        // Relance la musique
+        music.play();
+
+        // Replace le joueur
         player.setLayoutX(player.x);
         player.setLayoutY(player.y);
+
+        // Le joueur peut bouger
         freezePlayer = false;
+
+        // Efface les chaises
         Platform.runLater(() -> {
             getChildren().removeAll(chairs);
             chairs.clear();
@@ -50,11 +62,8 @@ public class Board extends Pane implements KView {
 
     public Board(Main main) throws ParserConfigurationException {
 
-        /**
-         * Music
-         */
-        AudioClip ac = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
-        ac.play();
+
+        music.play();
 
         // Récupération du main pour mise à jour des éléments visuels
         this.parent = main;
@@ -191,6 +200,10 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onTimeToShowChairs(int[] chairsIndex) {
+
+        // On arrête la musique
+        music.stop();
+
         ArrayList<Point> chairsList =  m.getTabSpawnChairs();
         for(int i = 0; i < chairsIndex.length; i++){
             chairs.add(new Chair(chairsList.get(chairsIndex[i]).getX(), chairsList.get(chairsIndex[i]).getY()));
@@ -202,6 +215,7 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onChairTaken(int index) {
+        // Effet musical
         chairs.get(index).setOccupied(true);
     }
 
@@ -209,6 +223,7 @@ public class Board extends Pane implements KView {
     public void onGameStart() {
         // Players can move
         // Display a message
+        System.out.println("Le jeu commence !");
     }
 
     @Override
@@ -216,6 +231,8 @@ public class Board extends Pane implements KView {
         onNewPlayerConnected(players);
         reinit();
     }
+
+
 
     private void updatePlayersList(){
         parent.thePlayersList.getChildren().clear();

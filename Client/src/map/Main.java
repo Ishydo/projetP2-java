@@ -16,14 +16,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 // ADD BUTTON TO BOTTOM
 public class Main extends Application {
@@ -33,13 +30,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        /**
-         * Music
-         */
-        AudioClip ac = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
-        ac.play();
-
 
         // The playerlist instanciation
         thePlayersList = new VBox();
@@ -147,7 +137,6 @@ public class Main extends Application {
         playersTxt.setFill(Color.WHITESMOKE);
 
         vbox.getChildren().addAll(gameName, roomName, separator, playersTxt);
-
         vbox.getChildren().addAll(thePlayersList);
         vbox.setPrefWidth(250);
 
@@ -172,7 +161,6 @@ public class Main extends Application {
 
         return vbox;
     }
-
 
     public static void main(String[] args) {
         launch(args);

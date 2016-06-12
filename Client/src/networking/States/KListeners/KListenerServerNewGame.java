@@ -62,6 +62,7 @@ public class KListenerServerNewGame extends KAbstractListener {
             RoundInfo currentRound = createGame();
             p.roundInfo = currentRound;
             serverContext.getServer().sendToAllTCP(p);
+
             context.getEndPoint().removeListener(this);
             context.getEndPoint().addListener(new KListenerServerGameOn(context));
         }

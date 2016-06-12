@@ -72,7 +72,6 @@ public class KClient extends KBaseApp {
 
     public void sendReady(){
         if(view != null){
-
             client.sendTCP(new StatePacket(view.getPlayerInfo(),StatePacket.states.READY));
         }
     }
