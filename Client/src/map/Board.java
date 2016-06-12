@@ -150,15 +150,17 @@ public class Board extends Pane implements KView {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Chair c = player.isOnChair();
-                if(c != null && !c.isOccupied()){
-                    netClient.sendChairTaken(chairs.indexOf(c));
-                    freezePlayer = true;
-                }else if(!freezePlayer){
-                    player.move();
-                    for(Enemy e : enemies)
-                        e.placeLabel();
-                }
+                Platform.runLater(() -> {
+                    Chair c = player.isOnChair();
+                    if(c != null && !c.isOccupied()){
+                        netClient.sendChairTaken(chairs.indexOf(c));
+                        freezePlayer = true;
+                    }else if(!freezePlayer){
+                        player.move();
+                        for(Enemy e : enemies)
+                            e.placeLabel();
+                    }
+                });
              }
         }, 0, 30);
     }
@@ -260,8 +262,6 @@ public class Board extends Pane implements KView {
         }else{
            Platform.runLater(() -> fadeStartGameMsgOut.play());
        }
-
-
         freezePlayer = false;
     }
 

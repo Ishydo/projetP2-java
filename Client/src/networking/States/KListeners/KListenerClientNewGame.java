@@ -1,11 +1,8 @@
 package networking.States.KListeners;
 
 import com.esotericsoftware.kryonet.Connection;
-import javafx.scene.control.Alert;
 import networking.KBaseApp;
-import networking.packets.EntityInfo;
 import networking.packets.NewPlayerPacket;
-import networking.packets.RoundInfo;
 import networking.packets.StatePacket;
 
 /**
