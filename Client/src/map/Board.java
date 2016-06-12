@@ -76,6 +76,7 @@ public class Board extends Pane implements KView {
         this.getChildren().addAll(chairs);
         this.getChildren().addAll(enemies);
         this.getChildren().add(player);
+        this.getChildren().add(player.label);
         move(player);
 
         try {
@@ -130,6 +131,8 @@ public class Board extends Pane implements KView {
                     freezePlayer = true;
                 }else if(!freezePlayer){
                     player.move();
+                    for(Enemy e : enemies)
+                        e.placeLabel();
                 }
              }
         }, 0, 30);
@@ -147,6 +150,7 @@ public class Board extends Pane implements KView {
                         Enemy e = new Enemy(ei.name,ei.x,ei.y);
                         enemies.add(e);
                         this.getChildren().add(e);
+                        this.getChildren().add(e.label);
                     }
                 }
             }

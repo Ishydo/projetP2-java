@@ -1,8 +1,12 @@
 package map;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import javax.swing.*;
 
@@ -13,6 +17,8 @@ public class BaseCharacter extends Circle{
     String name;
     double x; double y;
     int speed;
+    VBox label = new VBox();
+    Text text;
     double radius = 12;
     boolean ready = false;      // Joueur prêt ou non
 
@@ -27,6 +33,12 @@ public class BaseCharacter extends Circle{
         setCenterX(this.x);
         setCenterY(this.y);
         setRadius(radius);
+        text = new Text(name);
+        text.setFont(Font.font("Open Sans", FontWeight.BOLD, 15));
+        text.setFill(Color.WHITE);
+        label.setStyle("-fx-background-color: #000;-fx-padding: 1px;");
+        label.getChildren().add(text);
+        placeLabel();
     }
 
     public void move(){}
@@ -38,6 +50,11 @@ public class BaseCharacter extends Circle{
     public void moveBack(){
         setCenterX(x);
         setCenterY(y);
+    }
+
+    public void placeLabel(){
+        label.setLayoutY(this.getCenterY()-40);
+        label.setLayoutX(this.getCenterX()- (text.getLayoutBounds().getWidth()/2));
     }
 
 
