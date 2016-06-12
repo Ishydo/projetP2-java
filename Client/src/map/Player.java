@@ -7,6 +7,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,8 @@ public class Player extends BaseCharacter {
         this.m = m;
         this.walls = walls;
         setFill(Color.DARKOLIVEGREEN);
+
+
     }
 
     @Override
@@ -49,6 +52,7 @@ public class Player extends BaseCharacter {
                 moveBack();
             }
         }
+        placeLabel();
     }
 
     public Chair isOnChair(){

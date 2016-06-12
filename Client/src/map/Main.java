@@ -1,8 +1,5 @@
 package map;
 
-import com.pepperonas.fxiconics.FxIconicsLabel;
-import com.pepperonas.fxiconics.MaterialColor;
-import com.pepperonas.fxiconics.awf.FxFontAwesome;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -23,15 +20,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-// ADD BUTTON TO BOTTOM
-public class Main extends Application {
 
+public class Main extends Application {
 
     public VBox thePlayersList;
     private Board board;
 
-    // Transitions
-    private FadeTransition fadeWelcome;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -50,12 +44,7 @@ public class Main extends Application {
         // Pane central avec le jeu et titre
         StackPane centerPane = new StackPane();
         TitlePane mainTitle = new TitlePane("Welcome in the game !", "Press 'r' or click on the ready button when you are ready.");
-        centerPane.getChildren().addAll(board, mainTitle);
-
-        // Transition pour le texte de titre
-        fadeWelcome = new FadeTransition(Duration.millis(1000), mainTitle);
-        fadeWelcome.setFromValue(1.0);
-        fadeWelcome.setToValue(0.0);
+        centerPane.getChildren().addAll(board);
 
         mainLayout.setLeft(leftBar);
         mainLayout.setCenter(centerPane);
@@ -112,7 +101,6 @@ public class Main extends Application {
         btnReady.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                fadeWelcome.play();
                 btnReady.setText("Prêt !");
                 btnReady.setStyle("-fx-font-size:20px;-fx-background-color: #40d47e;");
                 board.getNetClient().sendReady();
