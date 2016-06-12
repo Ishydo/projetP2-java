@@ -11,6 +11,7 @@ public class EntityInfo extends BasePacket {
     public String name="";
     public boolean ready = false;
     public int score = 0;
+    public int index;
 
     @Override
     public boolean equals(Object obj) {

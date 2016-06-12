@@ -34,6 +34,8 @@ public class Board extends Pane implements KView {
     private ArrayList<Wall> walls = new ArrayList<>();
     private ArrayList<Chair> chairs = new ArrayList<>();
 
+    private ArrayList<Point> spawns;
+
     // All players in the game
     private ArrayList<PlayerLine> allPlayers = new ArrayList<>();
     private Map<String, BaseCharacter> playersMap = new HashMap<>();
@@ -66,6 +68,7 @@ public class Board extends Pane implements KView {
         });
     }
 
+
     public Board(Main main) throws ParserConfigurationException {
 
         // Récupération du main pour mise à jour des éléments visuels
@@ -90,7 +93,7 @@ public class Board extends Pane implements KView {
         for (Point p : m.getTabSpawnWall()) {
             walls.add(new Wall(p.getX(),p.getY()));
         }
-
+        spawns = m.getTabSpawnPlayers();
 
         player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 120, walls, m);
         player.setUuid(KClient.uuid);
@@ -102,6 +105,8 @@ public class Board extends Pane implements KView {
         newGameMsg.setOpacity(0);
         this.getChildren().add(newGameMsg);
         this.getChildren().add(startGameMsg);
+
+        this.getChildren().add(player.label);
 
         move(player);
 
@@ -149,6 +154,8 @@ public class Board extends Pane implements KView {
                     freezePlayer = true;
                 }else if(!freezePlayer){
                     player.move();
+                    for(Enemy e : enemies)
+                        e.placeLabel();
                 }
              }
         }, 0, 30);
@@ -167,6 +174,7 @@ public class Board extends Pane implements KView {
                         e.setUuid(ei.uuid);
                         enemies.add(e);
                         this.getChildren().add(e);
+                        this.getChildren().add(e.label);
                     }
                 }
             }
@@ -189,6 +197,12 @@ public class Board extends Pane implements KView {
         for(int i = 0; i < player.length; i++){
             if(player[i].uuid.equals(this.player.getUuid())){
                 this.player.score = player[i].score;
+                Point spawn = spawns.get(player[i].index);
+                this.player.setCenterX(spawn.getX());
+                this.player.setCenterY(spawn.getY());
+                this.player.setX(spawn.getX());
+                this.player.setY(spawn.getY());
+                this.player.placeLabel();
             }
             PlayerLine np = new PlayerLine(player[i].name,player[i].uuid, "" + player[i].score, player[i].ready);
             allPlayers.add(np);
