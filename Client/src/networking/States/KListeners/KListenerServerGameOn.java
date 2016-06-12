@@ -36,6 +36,10 @@ public class KListenerServerGameOn extends KAbstractListener {
     @Override
     public void disconnected(Connection connection) {
         super.disconnected(connection);
+        if(serverContext.getPlayersInfo().size() < 2){
+            System.out.println("Plus aucun joueur :( bye");
+            System.exit(0);
+        }
     }
 
     @Override
@@ -58,6 +62,9 @@ public class KListenerServerGameOn extends KAbstractListener {
                 context.getEndPoint().removeListener(this);
                 context.getEndPoint().addListener(new KListenerServerGameEnd(context, playersOnChair));
             }
+        }else if(o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.DISCONNECT_ME){
+            serverContext.getServer().sendToAllExceptTCP(connection.getID(),o);
+            serverContext.getPlayersInfo().remove(((StatePacket) o).uuid);
         }
     }
 }

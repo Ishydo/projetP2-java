@@ -2,6 +2,7 @@ package map;
 
 
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -10,6 +11,7 @@ import javafx.scene.shape.Circle;
 import networking.KClient;
 import networking.KView;
 import networking.packets.EntityInfo;
+import sun.net.www.content.text.PlainTextInputStream;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
@@ -227,6 +229,43 @@ public class Board extends Pane implements KView {
         reinit();
     }
 
+    @Override
+    public void onServerFull() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Connexion refusé");
+            alert.setContentText("Serveur pleins !");
+            alert.show();
+            alert.setOnCloseRequest(event -> System.exit(0));
+        });
+    }
+
+    @Override
+    public void onServerAlreadyInGame() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Connexion refusé");
+            alert.setContentText("Serveur en cours de jeu !");
+            alert.show();
+            alert.setOnCloseRequest(event -> System.exit(0));
+        });
+    }
+
+    @Override
+    public void onPlayerDisconnected(EntityInfo player) {
+        Platform.runLater(() -> {
+            allPlayers.removeIf(playerLine -> playerLine.uuid.equals(player.uuid));
+            updatePlayersList();
+        });
+
+    }
+
+    @Override
+    public void exit() {
+        netClient.disconnectMe();
+        netClient.getClient().stop();
+    }
+
     private void updatePlayersList(){
         parent.thePlayersList.getChildren().clear();
         for(int i = 0; i <= allPlayers.size()-1; i++){
@@ -243,4 +282,7 @@ public class Board extends Pane implements KView {
     public void setNetClient(KClient netClient) {
         this.netClient = netClient;
     }
+
+
+
 }

@@ -14,7 +14,8 @@ public class StatePacket extends BasePacket {
         GO_TO_END_STS,
         GO_TO_NEW_STS,
         SRV_FULL,
-        SRV_ALREADY_IN_GAME
+        SRV_ALREADY_IN_GAME,
+        DISCONNECT_ME
     }
 
     public states state;

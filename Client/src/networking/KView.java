@@ -14,4 +14,9 @@ public interface KView {
     void onChairTaken(int index);
     void onGameStart();
     void onGameEnd(EntityInfo[] players);
+    void onServerFull();
+    void onServerAlreadyInGame();
+    void onPlayerDisconnected(EntityInfo player);
+
+    void exit();
 }

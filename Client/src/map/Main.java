@@ -28,6 +28,7 @@ public class Main extends Application {
 
 
     public VBox thePlayersList;
+    private Board board;
 
     // Transitions
     private FadeTransition fadeWelcome;
@@ -41,7 +42,7 @@ public class Main extends Application {
 
         // Main app layout
         BorderPane mainLayout = new BorderPane();
-        Board board = new Board(this);
+        board = new Board(this);
 
         // The Left Bar (Players)
         VBox leftBar = createLeftBar(board);
@@ -127,5 +128,14 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        if(board != null){
+            board.exit();
+        }
     }
 }

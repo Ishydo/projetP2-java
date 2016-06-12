@@ -88,6 +88,11 @@ public class KClient extends KBaseApp {
         client.sendTCP(chairPacket);
     }
 
+    public void disconnectMe(){
+        StatePacket statePacket = new StatePacket(view.getPlayerInfo(), StatePacket.states.DISCONNECT_ME);
+        client.sendTCP(statePacket);
+    }
+
     public KView getView() {
         return view;
     }

@@ -66,6 +66,9 @@ public class KListenerClientGameOn extends KAbstractListener {
             System.out.println("Etat fin");
             context.getEndPoint().removeListener(this);
             context.getEndPoint().addListener(new KListenerClientGameEnd(context));
+        }else if(o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.DISCONNECT_ME){
+            if(clientContext.getView() != null)
+                clientContext.getView().onPlayerDisconnected(((StatePacket) o).player);
         }
         connection.sendTCP(clientContext.getView().getPlayerInfo());
     }

@@ -54,6 +54,9 @@ public class KListenerServerNewGame extends KAbstractListener {
                 pr.player.ready = true;
                 serverContext.getPlayersInfo().put(pr.player.uuid,pr.player);
                 serverContext.getServer().sendToAllTCP(new NewPlayerPacket(pr.player));
+            }else if(((StatePacket) o).state == StatePacket.states.DISCONNECT_ME){
+                serverContext.getServer().sendToAllExceptTCP(connection.getID(),o);
+                serverContext.getPlayersInfo().remove(((StatePacket) o).uuid);
             }
         }
 

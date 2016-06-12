@@ -1,6 +1,7 @@
 package networking.States.KListeners;
 
 import com.esotericsoftware.kryonet.Connection;
+import javafx.scene.control.Alert;
 import networking.KBaseApp;
 import networking.packets.EntityInfo;
 import networking.packets.NewPlayerPacket;
@@ -48,8 +49,14 @@ public class KListenerClientNewGame extends KAbstractListener {
                     clientContext.getView().onPlayerReady(npp.playerWhosReady);
             }
         }else if(o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.SRV_FULL){
-            System.out.println("Serveur pleins, désolé !");
-            System.exit(0);
+            if(clientContext.getView() != null)
+                clientContext.getView().onServerFull();
+        }else if(o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.SRV_ALREADY_IN_GAME){
+            if(clientContext.getView() != null)
+                clientContext.getView().onServerAlreadyInGame();
+        }else if(o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.DISCONNECT_ME){
+            if(clientContext.getView() != null)
+                clientContext.getView().onPlayerDisconnected(((StatePacket) o).player);
         }
 
     }
