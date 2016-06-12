@@ -39,13 +39,10 @@ public class Board extends Pane implements KView {
     private Main parent;
 
     private AudioClip music = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
-    private AudioClip win = new AudioClip(getClass().getClassLoader().getResource("music.mp3").toString());
+    private AudioClip win = new AudioClip(getClass().getClassLoader().getResource("win.mp3").toString());
 
     // Relance la partie
     public void reinit(){
-
-        // Relance la musique
-        music.play();
 
         // Replace le joueur
         player.setLayoutX(player.x);
@@ -223,8 +220,8 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onGameStart() {
-        // Players can move
-        // Display a message
+        // Relance la musique
+        music.play();
         System.out.println("Le jeu commence !");
     }
 
