@@ -91,31 +91,31 @@ public class Board extends Pane implements KView {
     public void moveCircleOnKeyPress(KeyCode code) {
         if (code == KeyCode.UP) {
             player.UP = true;
+            player.DOWN = false;
+            player.LEFT = false;
+            player.RIGHT = false;
         }
         if (code == KeyCode.DOWN) {
             player.DOWN = true;
+            player.UP = false;
+            player.LEFT = false;
+            player.RIGHT = false;
         }
         if (code == KeyCode.LEFT) {
             player.LEFT = true;
+            player.RIGHT = false;
+            player.UP = false;
+            player.DOWN = false;
         }
         if (code == KeyCode.RIGHT) {
             player.RIGHT = true;
+            player.LEFT = false;
+            player.UP = false;
+            player.DOWN = false;
         }
     }
 
     public void moveCircleOnKeyRelease(KeyCode code) {
-        if (code == KeyCode.UP) {
-            player.UP = false;
-        }
-        if (code == KeyCode.DOWN) {
-            player.DOWN = false;
-        }
-        if (code == KeyCode.LEFT) {
-            player.LEFT = false;
-        }
-        if (code == KeyCode.RIGHT) {
-            player.RIGHT = false;
-        }
 
         if(code == KeyCode.R){
             netClient.sendReady();
