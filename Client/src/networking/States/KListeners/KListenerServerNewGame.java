@@ -45,6 +45,7 @@ public class KListenerServerNewGame extends KAbstractListener {
 
             if(pr.state == StatePacket.states.HELLO){
                 System.out.println("HELLO PACKET RECEIVED");
+                pr.player.index = serverContext.getPlayersInfo().size();
                 serverContext.getPlayersInfo().put(pr.player.uuid,pr.player);
                 serverContext.getServer().sendToAllTCP(new NewPlayerPacket(serverContext.getPlayersInfo().values().toArray(new EntityInfo[serverContext.getPlayersInfo().size()])));
             }
