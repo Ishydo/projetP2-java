@@ -57,9 +57,6 @@ public class Board extends Pane implements KView {
 
     public Board(Main main) throws ParserConfigurationException {
 
-
-        music.play();
-
         // Récupération du main pour mise à jour des éléments visuels
         this.parent = main;
 
