@@ -19,7 +19,7 @@ public class BaseCharacter extends Circle{
     int speed;
     VBox label = new VBox();
     Text text;
-    double radius = 12;
+    double radius = 10;
     boolean ready = false;      // Joueur prêt ou non
     protected String uuid;
 
@@ -51,6 +51,7 @@ public class BaseCharacter extends Circle{
     public void moveBack(){
         setCenterX(x);
         setCenterY(y);
+        placeLabel();
     }
 
     public void placeLabel(){
@@ -83,5 +84,21 @@ public class BaseCharacter extends Circle{
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 }

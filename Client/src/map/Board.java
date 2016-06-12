@@ -173,6 +173,9 @@ public class Board extends Pane implements KView {
                 Point spawn = spawns.get(player[i].index);
                 this.player.setCenterX(spawn.getX());
                 this.player.setCenterY(spawn.getY());
+                this.player.setX(spawn.getX());
+                this.player.setY(spawn.getY());
+                this.player.placeLabel();
             }
             PlayerLine np = new PlayerLine(player[i].name,player[i].uuid, "" + player[i].score, player[i].ready);
             allPlayers.add(np);
