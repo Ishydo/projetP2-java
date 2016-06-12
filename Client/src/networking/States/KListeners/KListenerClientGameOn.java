@@ -23,6 +23,7 @@ public class KListenerClientGameOn extends KAbstractListener {
         super(context);
         client();
         clientContext.getClient().sendTCP(clientContext.getView().getPlayerInfo());
+        clientContext.getView().onGameStart();
     }
 
     @Override

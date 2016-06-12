@@ -23,7 +23,7 @@ import java.util.TimerTask;
 
 public class Board extends Pane implements KView {
     private parseMap m;
-    private boolean freezePlayer = false;
+    private boolean freezePlayer = true;
 
     private Player player;
 
@@ -50,9 +50,6 @@ public class Board extends Pane implements KView {
         // Replace le joueur
         player.setLayoutX(player.x);
         player.setLayoutY(player.y);
-
-        // Le joueur peut bouger
-        freezePlayer = false;
 
         // Efface les chaises
         Platform.runLater(() -> {
@@ -223,9 +220,8 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onGameStart() {
-        // Players can move
-        // Display a message
-        System.out.println("Le jeu commence !");
+        //Commencer muisque ici !
+        freezePlayer = false;
     }
 
     @Override
