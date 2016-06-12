@@ -21,6 +21,7 @@ public class BaseCharacter extends Circle{
     Text text;
     double radius = 12;
     boolean ready = false;      // Joueur prêt ou non
+    protected String uuid;
 
     public BaseCharacter(String name, double x, double y){
         this.name = name;
@@ -74,5 +75,13 @@ public class BaseCharacter extends Circle{
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

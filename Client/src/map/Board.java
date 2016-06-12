@@ -31,6 +31,8 @@ public class Board extends Pane implements KView {
     private ArrayList<Wall> walls = new ArrayList<>();
     private ArrayList<Chair> chairs = new ArrayList<>();
 
+    private ArrayList<Point> spawns;
+
     // All players in the game
     private ArrayList<PlayerLine> allPlayers = new ArrayList<>();
     private Map<String, BaseCharacter> playersMap = new HashMap<>();
@@ -55,6 +57,7 @@ public class Board extends Pane implements KView {
         });
     }
 
+
     public Board(Main main) throws ParserConfigurationException {
 
         // Récupération du main pour mise à jour des éléments visuels
@@ -69,9 +72,10 @@ public class Board extends Pane implements KView {
         for (Point p : m.getTabSpawnWall()) {
             walls.add(new Wall(p.getX(),p.getY()));
         }
-
+        spawns = m.getTabSpawnPlayers();
 
         player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 120, walls, m);
+        player.setUuid(KClient.uuid);
 
         this.getChildren().addAll(chairs);
         this.getChildren().addAll(enemies);
@@ -88,28 +92,20 @@ public class Board extends Pane implements KView {
 
     public void moveCircleOnKeyPress(KeyCode code) {
         if (code == KeyCode.UP) {
+            player.stop();
             player.UP = true;
-            player.DOWN = false;
-            player.LEFT = false;
-            player.RIGHT = false;
         }
         if (code == KeyCode.DOWN) {
+            player.stop();
             player.DOWN = true;
-            player.UP = false;
-            player.LEFT = false;
-            player.RIGHT = false;
         }
         if (code == KeyCode.LEFT) {
+            player.stop();
             player.LEFT = true;
-            player.RIGHT = false;
-            player.UP = false;
-            player.DOWN = false;
         }
         if (code == KeyCode.RIGHT) {
+            player.stop();
             player.RIGHT = true;
-            player.LEFT = false;
-            player.UP = false;
-            player.DOWN = false;
         }
     }
 
@@ -142,12 +138,13 @@ public class Board extends Pane implements KView {
     public void onPlayersPosReceived(EntityInfo[] players) {
         Platform.runLater(() -> {
             for(EntityInfo ei : players){
-                if(!player.name.equals(ei.name)){
+                if(!player.getUuid().equals(ei.uuid)){
                     int index = enemies.indexOf(ei);
                     if(index != -1) {
                         enemies.get(index).moveTo(ei.x, ei.y);
                     }else {
                         Enemy e = new Enemy(ei.name,ei.x,ei.y);
+                        e.setUuid(ei.uuid);
                         enemies.add(e);
                         this.getChildren().add(e);
                         this.getChildren().add(e.label);
@@ -171,10 +168,13 @@ public class Board extends Pane implements KView {
     public void onNewPlayerConnected(EntityInfo[] player) {
         allPlayers.clear();
         for(int i = 0; i < player.length; i++){
-            if(player[i].name.equals(this.player.name)){
+            if(player[i].uuid.equals(this.player.getUuid())){
                 this.player.score = player[i].score;
+                Point spawn = spawns.get(player[i].index);
+                this.player.setCenterX(spawn.getX());
+                this.player.setCenterY(spawn.getY());
             }
-            PlayerLine np = new PlayerLine(player[i].name, "" + player[i].score, player[i].ready);
+            PlayerLine np = new PlayerLine(player[i].name,player[i].uuid, "" + player[i].score, player[i].ready);
             allPlayers.add(np);
         }
 
@@ -185,8 +185,8 @@ public class Board extends Pane implements KView {
     @Override
     public void onPlayerReady(EntityInfo player) {
         for(int i = 0; i < allPlayers.size(); i++){
-            if(allPlayers.get(i).playername.textProperty().getValue().equals(player.name)){
-                PlayerLine np = new PlayerLine(player.name, "" + player.score, player.ready);
+            if(allPlayers.get(i).uuid.equals(player.uuid)){
+                PlayerLine np = new PlayerLine(player.name,player.uuid, "" + player.score, player.ready);
                 allPlayers.remove(i);
                 allPlayers.add(np);
             }
@@ -226,6 +226,7 @@ public class Board extends Pane implements KView {
 
     @Override
     public void onGameEnd(EntityInfo[] players) {
+        freezePlayer = true;
         onNewPlayerConnected(players);
         reinit();
     }

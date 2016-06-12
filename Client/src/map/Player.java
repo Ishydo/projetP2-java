@@ -68,6 +68,13 @@ public class Player extends BaseCharacter {
         return null;
     }
 
+    public void stop(){
+        this.DOWN = false;
+        this.UP = false;
+        this.RIGHT = false;
+        this.LEFT = false;
+    }
+
 
     public ArrayList<Chair> getChairs() {
         return chairs;

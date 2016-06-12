@@ -30,6 +30,7 @@ public class KListenerServerGameOn extends KAbstractListener {
     @Override
     public void connected(Connection connection) {
         super.connected(connection);
+        connection.sendTCP(new StatePacket(null, StatePacket.states.SRV_ALREADY_IN_GAME));
     }
 
     @Override

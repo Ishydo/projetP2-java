@@ -11,11 +11,12 @@ public class EntityInfo extends BasePacket {
     public String name="";
     public boolean ready = false;
     public int score = 0;
+    public int index;
 
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Enemy){
-            return this.name.equals(((Enemy) obj).getName());
+            return this.uuid.equals(((Enemy) obj).getUuid());
         }else{
             return super.equals(obj);
         }
