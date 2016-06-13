@@ -155,11 +155,14 @@ public class Board extends Pane implements KView {
                     if(c != null && !c.isOccupied()){
                         netClient.sendChairTaken(chairs.indexOf(c));
                         freezePlayer = true;
-                    }else if(!freezePlayer){
-                        player.move();
+                    }else{
+                        if(!freezePlayer){
+                            player.move();
+                        }
                         for(Enemy e : enemies)
                             e.placeLabel();
                     }
+
                 });
              }
         }, 0, 30);
