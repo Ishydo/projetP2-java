@@ -280,7 +280,11 @@ public class Board extends Pane implements KView {
             alert.setTitle("Connexion refusé");
             alert.setContentText("Serveur pleins !");
             alert.show();
-            alert.setOnCloseRequest(event -> System.exit(0));
+            alert.setOnCloseRequest(event -> {
+                netClient.disconnectMe();
+                System.exit(0);
+
+            });
         });
     }
 
@@ -291,7 +295,11 @@ public class Board extends Pane implements KView {
             alert.setTitle("Connexion refusé");
             alert.setContentText("Serveur en cours de jeu !");
             alert.show();
-            alert.setOnCloseRequest(event -> System.exit(0));
+            alert.setOnCloseRequest(event -> {
+                netClient.disconnectMe();
+                System.exit(0);
+
+            });
         });
     }
 

@@ -21,7 +21,7 @@ public abstract class KBaseApp  {
     protected boolean stop = false;
     public static String uuid = UUID.randomUUID().toString();
 
-    private final int MAX_PLAYERS = 10;
+    private final int MAX_PLAYERS = 7;
 
     public RoundInfo getCurrentRound(){
         return playedRounds.get(playedRounds.size()-1);
