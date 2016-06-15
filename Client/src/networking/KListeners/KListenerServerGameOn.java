@@ -1,16 +1,14 @@
-package networking.States.KListeners;
+package networking.KListeners;
 
 import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
 import networking.KBaseApp;
 import networking.packets.EntityInfo;
 import networking.packets.StatePacket;
-import networking.packets.blockChair;
-import networking.packets.onChairPacket;
+import networking.packets.BlockChairPacket;
+import networking.packets.OnChairPacket;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by diogo on 6/10/16.
@@ -50,11 +48,11 @@ public class KListenerServerGameOn extends KAbstractListener {
             e.updateTime(formatter);
             serverContext.getPlayersInfo().put(e.uuid,e);
             connection.sendTCP(serverContext.getPlayersInfo().values().toArray(new EntityInfo[serverContext.getPlayersInfo().size()]));
-        }else if(o instanceof onChairPacket){
-            onChairPacket chairPacket = (onChairPacket) o;
-            blockChair blockChair = new blockChair();
-            blockChair.chairIndex = chairPacket.chairIndex;
-            serverContext.getServer().sendToAllTCP(blockChair);
+        }else if(o instanceof OnChairPacket){
+            OnChairPacket chairPacket = (OnChairPacket) o;
+            BlockChairPacket BlockChairPacket = new BlockChairPacket();
+            BlockChairPacket.chairIndex = chairPacket.chairIndex;
+            serverContext.getServer().sendToAllTCP(BlockChairPacket);
             playersOnChair.add(chairPacket.playerOnChair);
             if(playersOnChair.size() >= serverContext.getPlayersInfo().size() - 1){
                 System.out.println("Game finished");

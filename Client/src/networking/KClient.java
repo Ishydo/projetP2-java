@@ -1,7 +1,6 @@
 package networking;
 
-import map.Player;
-import networking.States.KListeners.KListenerClientNewGame;
+import networking.KListeners.KListenerClientNewGame;
 import networking.packets.*;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.EndPoint;
@@ -47,10 +46,9 @@ public class KClient extends KBaseApp {
         kryoSerializer = client.getKryo();
         kryoSerializer.register(String.class);
         kryoSerializer.register(BasePacket.class);
-        kryoSerializer.register(blockChair.class);
+        kryoSerializer.register(BlockChairPacket.class);
         kryoSerializer.register(EntityInfo.class);
-        kryoSerializer.register(onChairPacket.class);
-        kryoSerializer.register(PlayersPosition.class);
+        kryoSerializer.register(OnChairPacket.class);
         kryoSerializer.register(RoundInfo.class);
         kryoSerializer.register(StatePacket.class);
         kryoSerializer.register(EntityInfo[].class);
@@ -77,7 +75,7 @@ public class KClient extends KBaseApp {
     }
 
     public void sendChairTaken(int index){
-        onChairPacket chairPacket = new onChairPacket();
+        OnChairPacket chairPacket = new OnChairPacket();
         chairPacket.chairIndex = index;
 
         chairPacket.playerOnChair = view.getPlayerInfo();

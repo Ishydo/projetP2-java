@@ -1,11 +1,11 @@
-package networking.States.KListeners;
+package networking.KListeners;
 
 import com.esotericsoftware.kryonet.Connection;
 import networking.KBaseApp;
 import networking.KClient;
 import networking.packets.EntityInfo;
 import networking.packets.StatePacket;
-import networking.packets.blockChair;
+import networking.packets.BlockChairPacket;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,9 +58,9 @@ public class KListenerClientGameOn extends KAbstractListener {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        }else if(o instanceof blockChair){
+        }else if(o instanceof BlockChairPacket){
             if(clientContext.getView() != null){
-                clientContext.getView().onChairTaken(((blockChair) o).chairIndex);
+                clientContext.getView().onChairTaken(((BlockChairPacket) o).chairIndex);
             }
         }else if(o instanceof StatePacket && ((StatePacket) o).state == StatePacket.states.GO_TO_END_STS){
             System.out.println("Etat fin");

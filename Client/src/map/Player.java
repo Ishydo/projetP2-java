@@ -1,13 +1,9 @@
 package map;
 
 import javafx.geometry.Bounds;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -17,14 +13,13 @@ import java.util.ArrayList;
 public class Player extends BaseCharacter {
     boolean UP, DOWN, RIGHT, LEFT;
     ImageView image;
-    double x; double y;
     int speed;
-    parseMap m;
+    MapParsor m;
     ArrayList<Wall> walls;
     ArrayList<Chair> chairs;
     public int score=0;
 
-    public Player(String name, double x, double y, ArrayList<Wall> walls, parseMap m) {
+    public Player(String name, double x, double y, ArrayList<Wall> walls, MapParsor m) {
         super(name, x, y);
         this.m = m;
         this.walls = walls;

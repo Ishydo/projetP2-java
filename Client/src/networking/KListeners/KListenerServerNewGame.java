@@ -1,8 +1,6 @@
-package networking.States.KListeners;
+package networking.KListeners;
 
 import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Server;
-import com.sun.deploy.util.ArrayUtil;
 import networking.KBaseApp;
 import networking.KServer;
 import networking.packets.EntityInfo;

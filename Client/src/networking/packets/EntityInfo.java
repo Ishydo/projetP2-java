@@ -26,8 +26,8 @@ public class EntityInfo extends BasePacket {
     @Override
     public String toString() {
         return "EntityInfo{" +
-                "x=" + x +
-                ", y=" + y +
+                "startX=" + x +
+                ", startY=" + y +
                 ", name='" + name + '\'' +
                 ", ready=" + ready +
                 ", score=" + score +

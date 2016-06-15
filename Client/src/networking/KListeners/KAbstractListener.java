@@ -1,4 +1,4 @@
-package networking.States.KListeners;
+package networking.KListeners;
 
 import com.esotericsoftware.kryonet.Listener;
 import networking.KBaseApp;

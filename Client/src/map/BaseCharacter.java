@@ -1,6 +1,5 @@
 package map;
 
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -8,14 +7,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import javax.swing.*;
-
 /**
  * Created by Bryan on 30.05.2016.
  */
 public class BaseCharacter extends Circle{
     String name;
-    double x; double y;
+
+    protected double startX;
+    protected double startY;
+
     int speed;
     VBox label = new VBox();
     Text text;
@@ -23,16 +23,16 @@ public class BaseCharacter extends Circle{
     boolean ready = false;      // Joueur prêt ou non
     protected String uuid;
 
-    public BaseCharacter(String name, double x, double y){
+    public BaseCharacter(String name, double x, double startY){
         this.name = name;
-        this.x = x;
-        this.y = y;
+        this.startX = x;
+        this.startY = startY;
         initialize();
     }
 
     private void initialize(){
-        setCenterX(this.x);
-        setCenterY(this.y);
+        setCenterX(this.startX);
+        setCenterY(this.startY);
         setRadius(radius);
         text = new Text(name);
         text.setFont(Font.font("Open Sans", FontWeight.BOLD, 15));
@@ -44,13 +44,10 @@ public class BaseCharacter extends Circle{
 
     public void move(){}
 
-    public boolean isInWall(){
-        return false;
-    }
 
     public void moveBack(){
-        setCenterX(x);
-        setCenterY(y);
+        setCenterX(startX);
+        setCenterY(startY);
         placeLabel();
     }
 
@@ -86,19 +83,19 @@ public class BaseCharacter extends Circle{
         this.uuid = uuid;
     }
 
-    public double getX() {
-        return x;
+    public double getStartX() {
+        return startX;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void setStartX(double startX) {
+        this.startX = startX;
     }
 
-    public double getY() {
-        return y;
+    public double getStartY() {
+        return startY;
     }
 
-    public void setY(double y) {
-        this.y = y;
+    public void setStartY(double startY) {
+        this.startY = startY;
     }
 }

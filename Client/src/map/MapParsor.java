@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 
-public class parseMap {
+public class MapParsor {
     private int widthMap;
     private int heightMap;
     private int widthTile;
@@ -22,7 +22,7 @@ public class parseMap {
     private ArrayList<Point> tabSpawnPlayers;
     private ArrayList<Point> tabSpawnChairs;
 
-    public parseMap() throws ParserConfigurationException
+    public MapParsor() throws ParserConfigurationException
     {
         try
         {

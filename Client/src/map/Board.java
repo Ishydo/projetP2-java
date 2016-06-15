@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Circle;
@@ -14,7 +13,6 @@ import javafx.util.Duration;
 import networking.KClient;
 import networking.KView;
 import networking.packets.EntityInfo;
-import sun.net.www.content.text.PlainTextInputStream;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,7 +25,7 @@ import java.util.TimerTask;
 
 
 public class Board extends Pane implements KView {
-    private parseMap m;
+    private MapParsor m;
     private boolean freezePlayer = true;
 
     private Player player;
@@ -60,8 +58,8 @@ public class Board extends Pane implements KView {
     public void reinit(){
 
         // Replace le joueur
-        player.setLayoutX(player.x);
-        player.setLayoutY(player.y);
+        player.setLayoutX(player.startX);
+        player.setLayoutY(player.startY);
 
         // Efface les chaises
         Platform.runLater(() -> {
@@ -77,7 +75,7 @@ public class Board extends Pane implements KView {
         this.parent = main;
 
         //Va lire le fichier et nous générer les tableaux pour nos éléments
-        m = new parseMap();
+        m = new MapParsor();
 
         // In and Out animations fade
         fadeNewGameMsgIn.setFromValue(0.0);
@@ -207,8 +205,8 @@ public class Board extends Pane implements KView {
                 Point spawn = spawns.get(player[i].index);
                 this.player.setCenterX(spawn.getX());
                 this.player.setCenterY(spawn.getY());
-                this.player.setX(spawn.getX());
-                this.player.setY(spawn.getY());
+                this.player.setStartX(spawn.getX());
+                this.player.setStartY(spawn.getY());
                 this.player.placeLabel();
             }
             PlayerLine np = new PlayerLine(player[i].name,player[i].uuid, "" + player[i].score, player[i].ready);

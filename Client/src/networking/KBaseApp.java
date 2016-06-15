@@ -1,7 +1,5 @@
 package networking;
 
-import com.esotericsoftware.kryonet.Listener;
-import networking.States.IState;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 import networking.packets.RoundInfo;
