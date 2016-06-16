@@ -19,8 +19,8 @@ public class Player extends BaseCharacter {
     ArrayList<Chair> chairs;
     public int score=0;
 
-    public Player(String name, double x, double y, ArrayList<Wall> walls, MapParsor m) {
-        super(name, x, y);
+    public Player(String name,String uuid, double x, double y, ArrayList<Wall> walls, MapParsor m) {
+        super(name,uuid, x, y);
         this.m = m;
         this.walls = walls;
         setFill(Color.DARKOLIVEGREEN);

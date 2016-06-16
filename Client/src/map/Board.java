@@ -95,8 +95,7 @@ public class Board extends Pane implements KView {
         }
         spawns = m.getTabSpawnPlayers();
 
-        player = new Player(JOptionPane.showInputDialog("votre nom ?"),100, 120, walls, m);
-        player.setUuid(KClient.uuid);
+        player = new Player(JOptionPane.showInputDialog("votre nom ?"),KClient.uuid,100, 120, walls, m);
 
         this.getChildren().addAll(chairs);
         this.getChildren().addAll(enemies);
@@ -108,7 +107,7 @@ public class Board extends Pane implements KView {
 
         this.getChildren().add(player.label);
 
-        move(player);
+        move();
 
         try {
             netClient = new KClient(5555,5559,this);
@@ -143,7 +142,7 @@ public class Board extends Pane implements KView {
         }
     }
 
-    private void move(Circle circle) {
+    private void move() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -175,8 +174,7 @@ public class Board extends Pane implements KView {
                     if(index != -1) {
                         enemies.get(index).moveTo(ei.x, ei.y);
                     }else {
-                        Enemy e = new Enemy(ei.name,ei.x,ei.y);
-                        e.setUuid(ei.uuid);
+                        Enemy e = new Enemy(ei.name,ei.uuid,ei.x,ei.y);
                         enemies.add(e);
                         this.getChildren().add(e);
                         this.getChildren().add(e.label);
@@ -332,7 +330,4 @@ public class Board extends Pane implements KView {
     public void setNetClient(KClient netClient) {
         this.netClient = netClient;
     }
-
-
-
 }

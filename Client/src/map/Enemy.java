@@ -8,8 +8,8 @@ import networking.packets.EntityInfo;
  */
 public class Enemy extends BaseCharacter {
 
-    public Enemy(String name, double x, double y){
-        super(name, x, y);
+    public Enemy(String name,String uuid, double x, double y){
+        super(name, uuid,x, y);
         setFill(Color.ORANGE);
     }
 

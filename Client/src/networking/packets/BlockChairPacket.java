@@ -5,4 +5,11 @@ package networking.packets;
  */
 public class BlockChairPacket extends BasePacket {
     public int chairIndex;
+
+
+    public BlockChairPacket(){}
+
+    public BlockChairPacket(OnChairPacket onChairPacket){
+        this.chairIndex = onChairPacket.chairIndex;
+    }
 }

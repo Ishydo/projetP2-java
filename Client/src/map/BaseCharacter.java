@@ -23,10 +23,11 @@ public class BaseCharacter extends Circle{
     boolean ready = false;      // Joueur prêt ou non
     protected String uuid;
 
-    public BaseCharacter(String name, double x, double startY){
+    public BaseCharacter(String name,String uuid, double x, double startY){
         this.name = name;
         this.startX = x;
         this.startY = startY;
+        this.uuid = uuid;
         initialize();
     }
 
