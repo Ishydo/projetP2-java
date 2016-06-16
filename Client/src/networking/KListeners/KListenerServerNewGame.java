@@ -15,11 +15,13 @@ import java.util.*;
  * Created by diogo on 6/10/16.
  */
 public class KListenerServerNewGame extends KAbstractListener {
+    private static final int N_TOTAL_CHAIRS = 31;
+    private static final int MIN_PLAYERS = 2;
+
     public KListenerServerNewGame(KBaseApp context) {
         super(context);
         server();
     }
-
 
     @Override
     public void connected(Connection connection) {
@@ -28,11 +30,6 @@ public class KListenerServerNewGame extends KAbstractListener {
             System.out.println("FULL");
             connection.sendTCP(new StatePacket(null,StatePacket.states.SRV_FULL));
         }
-    }
-
-    @Override
-    public void disconnected(Connection connection) {
-        super.disconnected(connection);
     }
 
     @Override
@@ -59,7 +56,7 @@ public class KListenerServerNewGame extends KAbstractListener {
         }
 
 
-        if (areAllPlayersReady() && ((KServer) context).getPlayersInfo().size() >= 2) {
+        if (areAllPlayersReady() && ((KServer) context).getPlayersInfo().size() >= MIN_PLAYERS) {
             StatePacket p = new StatePacket(null,StatePacket.states.GO_TO_ON_STS);
             RoundInfo currentRound = createGame();
             p.roundInfo = currentRound;
@@ -68,9 +65,14 @@ public class KListenerServerNewGame extends KAbstractListener {
             context.getEndPoint().addListener(new KListenerServerGameOn(context));
         }
 
+        //Affiche les joueurs, pour du debug
         System.out.println(serverContext.getPlayersInfo());
     }
 
+    /**
+     * Est-ce que tout les joueurs sont prêts ?
+     * @return
+     */
     private boolean areAllPlayersReady(){
         if (0 == serverContext.getPlayersInfo()
                 .entrySet()
@@ -80,6 +82,11 @@ public class KListenerServerNewGame extends KAbstractListener {
                 .length) return true;
         else return false;
     }
+
+    /**
+     * Créer le round
+     * @return RoundInfo contenant les détails du round
+     */
     private RoundInfo createGame(){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, 20);
@@ -87,9 +94,13 @@ public class KListenerServerNewGame extends KAbstractListener {
         );
     }
 
+    /**
+     * Choix random des chaises à affiché
+     * @return tableau d'indexes des chaises à afficher, les indexes sont par rapport à la map.
+     */
     private int[] randomChairs(){
         ArrayList<Integer> chairIndexes = new ArrayList<>();
-        for (int i = 0; i < 31 ; i++){
+        for (int i = 0; i < N_TOTAL_CHAIRS ; i++){
             chairIndexes.add(new Integer(i));
         }
         Collections.shuffle(chairIndexes);
