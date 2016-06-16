@@ -4,10 +4,7 @@ import networking.KListeners.KListenerServerNewGame;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Server;
 import networking.packets.*;
-
 import java.io.IOException;
-import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class KServer extends KBaseApp {
@@ -28,28 +25,11 @@ public class KServer extends KBaseApp {
     private void init() throws IOException {
         server = new Server(100 * 16384,3 * 2048);
         kryoSerializer = server.getKryo();
-        kryoSerializer.register(String.class);
-        kryoSerializer.register(BasePacket.class);
-        kryoSerializer.register(BlockChairPacket.class);
-        kryoSerializer.register(EntityInfo.class);
-        kryoSerializer.register(OnChairPacket.class);
-        kryoSerializer.register(RoundInfo.class);
-        kryoSerializer.register(StatePacket.class);
-        kryoSerializer.register(EntityInfo[].class);
-        kryoSerializer.register(StatePacket.states.class);
-        kryoSerializer.register(NewPlayerPacket.class);
-        kryoSerializer.register(NewPlayerPacket.action.class);
-        kryoSerializer.register(int[].class);
-        kryoSerializer.register(SimpleDateFormat.class);
-        kryoSerializer.register(GregorianCalendar.class);
-        kryoSerializer.register(Date.class);
-        kryoSerializer.register(DateFormatSymbols.class);
-        kryoSerializer.register(String[].class);
-        kryoSerializer.register(Locale.class);
+        serializeAll();
         server.addListener(new KListenerServerNewGame(this));
         server.start();
         server.bind(tcpPort, udpPort);
-        endPoint = (EndPoint)server;
+        endPoint = server;
     }
 
 

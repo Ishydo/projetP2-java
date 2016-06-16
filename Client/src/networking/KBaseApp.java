@@ -2,7 +2,7 @@ package networking;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
-import networking.packets.RoundInfo;
+import networking.packets.*;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -23,6 +23,23 @@ public abstract class KBaseApp  {
 
     public RoundInfo getCurrentRound(){
         return playedRounds.get(playedRounds.size()-1);
+    }
+
+    protected void serializeAll(){
+        if(kryoSerializer != null){
+            kryoSerializer.register(String.class);
+            kryoSerializer.register(BasePacket.class);
+            kryoSerializer.register(BlockChairPacket.class);
+            kryoSerializer.register(EntityInfo.class);
+            kryoSerializer.register(OnChairPacket.class);
+            kryoSerializer.register(RoundInfo.class);
+            kryoSerializer.register(StatePacket.class);
+            kryoSerializer.register(EntityInfo[].class);
+            kryoSerializer.register(StatePacket.states.class);
+            kryoSerializer.register(NewPlayerPacket.class);
+            kryoSerializer.register(NewPlayerPacket.action.class);
+            kryoSerializer.register(int[].class);
+        }
     }
 
 
