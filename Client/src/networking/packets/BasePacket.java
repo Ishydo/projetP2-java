@@ -14,8 +14,6 @@ public class BasePacket {
 
     public String uuid = KBaseApp.uuid;
 
-
-
     protected String serverTime;
 
     public BasePacket() {

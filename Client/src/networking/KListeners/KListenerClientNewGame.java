@@ -55,6 +55,5 @@ public class KListenerClientNewGame extends KAbstractListener {
             if(clientContext.getView() != null)
                 clientContext.getView().onPlayerDisconnected(((StatePacket) o).player);
         }
-
     }
 }
