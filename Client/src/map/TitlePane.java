@@ -11,12 +11,19 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
- * Created by Dom on 12.06.2016.
+ * Classe TitlePane héritant de StackPane.
+ * Représente un titre affiché lors des différentes
+ * étapes de la partie.
  */
 public class TitlePane extends StackPane {
 
+    /**
+     * Constructeur du TitlePane.
+     * Crée les différentes parties.
+     * @param mainText : Texte principal.
+     * @param secondaryText : Texte secondaire.
+     */
     TitlePane(String mainText, String secondaryText){
-
 
         VBox vb = new VBox(8);
 

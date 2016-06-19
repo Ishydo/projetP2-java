@@ -12,15 +12,25 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 /**
- * Created by Dom on 10.06.2016.
+ * Classe PlayerLine héritant de HBox.
+ * Représente une ligne dans la partie gauche
+ * de la fenêtre.
  */
 public class PlayerLine extends HBox {
 
-    Text playername;
-    Text score;
-    boolean ready;
-    String uuid;
+    protected Text playername;
+    protected Text score;
+    protected boolean ready;
+    protected String uuid;
 
+    /**
+     * Constructeur de PlayerLine.
+     * Va créer toute la ligne.
+     * @param _username : Nom du joueur.
+     * @param _uuid : UUID du joueur
+     * @param _score : Score du joueur.
+     * @param ready : Boolean si le joueur est prêt.
+     */
     public PlayerLine(String _username,String _uuid, String _score, boolean ready){
 
         uuid = _uuid;

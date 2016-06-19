@@ -1,6 +1,5 @@
 package map;
 
-import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,15 +17,23 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-
+/**
+ * Classe Main de la partie cliente.
+ * Création de la fenêtre.
+ */
 public class Main extends Application {
 
     public VBox thePlayersList;
     private Board board;
 
 
+    /**
+     * Méthode permettante de créer la fenêtre et initialiser
+     * ses différentes partes.
+     * @param primaryStage : Stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -62,6 +69,13 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Méthode permettant de créer la partie gauche
+     * de la fenêtre, c'est-à-dire l'endroit où
+     * on aura la liste des joueurs avec leur score.
+     * @param board : Instance du plateau de jeu.
+     * @return : VBox qui se positonné à gauche.
+     */
     private VBox createLeftBar(Board board) {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10)); // Set all sides to 10
@@ -114,11 +128,19 @@ public class Main extends Application {
         return vbox;
     }
 
+    /**
+     * Méthode lancant l'application entière.
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
 
+    /**
+     * Méthode pour fermer correctement l'application.
+     * @throws Exception
+     */
     @Override
     public void stop() throws Exception {
         super.stop();
