@@ -6,7 +6,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-
+/**
+ * Classe MapParsor. Parseur de map.
+ * La map a été réalisé avec Tiled.
+ */
 public class MapParsor {
     private int widthMap;
     private int heightMap;
@@ -22,11 +25,18 @@ public class MapParsor {
     private ArrayList<Point> tabSpawnPlayers;
     private ArrayList<Point> tabSpawnChairs;
 
+    /**
+     * Constructeur du MapParsor.
+     * Va parser tout le fichier :
+     * - Récupérer les infos sur la map.
+     * - Appeler les méthodes pour remplir les tableaux.
+     * @throws ParserConfigurationException
+     */
     public MapParsor() throws ParserConfigurationException
     {
         try
         {
-            tabSpawnWall = new ArrayList<Point>();
+            tabSpawnWall = new ArrayList<>();
             tabSpawnChairs = new ArrayList<>();
             tabSpawnPlayers = new ArrayList<>();
 
@@ -37,13 +47,13 @@ public class MapParsor {
             {
                 if(ligne.contains("[header]"))
                 {
-                    ligne=buff.readLine();                  //increment de la ligne
+                    ligne=buff.readLine();
                     widthMap = Integer.parseInt(ligne.substring(6));
 
-                    ligne=buff.readLine();                  //increment de la ligne
+                    ligne=buff.readLine();
                     heightMap = Integer.parseInt(ligne.substring(7));
 
-                    ligne=buff.readLine();                 // increment ligne
+                    ligne=buff.readLine();
                     widthTile = Integer.parseInt(ligne.substring(10));
 
                     ligne=buff.readLine();
@@ -78,9 +88,11 @@ public class MapParsor {
     }
 
 
-    /*
-    *   Lecture du fichier pour définition de la taille de la map et du placement des différents éléments.
-    *
+    /**
+     * Lecture du fichier pour définition de la taille de la map et du placement des différents éléments.
+     * @param fileName : Nom du fichier
+     * @return : Retourne un buffer.
+     * @throws FileNotFoundException
      */
     private BufferedReader initMapParser(String fileName) throws FileNotFoundException
     {
@@ -93,9 +105,12 @@ public class MapParsor {
         return buff;
     }
 
-    /*
-    *   Remplissage d'un tableau de position en fonction d'un nom de layer sur un fichier map.
-    *
+    /**
+     * Remplissage d'un tableau de position en fonction d'un nom de layer sur un fichier map.
+     * @param buff : Buffer
+     * @param layerName : Nom de la couche
+     * @param list : ArrayList à remplir
+     * @throws IOException
      */
     private void computeTiledElements(BufferedReader buff, String layerName, ArrayList<Point> list) throws IOException
     {

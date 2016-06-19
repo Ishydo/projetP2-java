@@ -1,6 +1,5 @@
 package map;
 
-
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -8,7 +7,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import networking.KClient;
 import networking.KView;
@@ -23,7 +21,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-
+/**
+ * Classe Board héritant de Pane et implémentant KView.
+ * C'est l'une des classes centrale du projet côté client.
+ * La classe Board implémente le plateau de jeu et gère
+ * les différentes étapes du jeu côté client.
+ */
 public class Board extends Pane implements KView {
     private MapParsor m;
     private boolean freezePlayer = true;
@@ -36,7 +39,6 @@ public class Board extends Pane implements KView {
 
     private ArrayList<Point> spawns;
 
-    // All players in the game
     private ArrayList<PlayerLine> allPlayers = new ArrayList<>();
     private Map<String, BaseCharacter> playersMap = new HashMap<>();
 
@@ -54,12 +56,15 @@ public class Board extends Pane implements KView {
 
     private int manche = 0;
 
-    // Relance la partie
+    /**
+     * Méthode permettant de remettre le joueur
+     * à sa position de départ et enlever les chaises.
+     * Appelée quand fin de manche.
+     */
     public void reinit(){
 
         // Replace le joueur
-        player.setCenterX(player.startX);
-        player.setCenterX(player.startY);
+        player.moveBack();
 
         // Efface les chaises
         Platform.runLater(() -> {
@@ -68,7 +73,11 @@ public class Board extends Pane implements KView {
         });
     }
 
-
+    /**
+     * Constructeur de la classe Board.
+     * @param main : Instance de la classe Main d'où le board est créé.
+     * @throws ParserConfigurationException
+     */
     public Board(Main main) throws ParserConfigurationException {
 
         // Récupération du main pour mise à jour des éléments visuels
@@ -116,6 +125,11 @@ public class Board extends Pane implements KView {
         }
    }
 
+    /**
+     * Méthode permettant de récupérer les entrées clavier
+     * pour le déplacement des joueurs.
+     * @param code : Touche entrée
+     */
     public void moveCircleOnKeyPress(KeyCode code) {
         if (code == KeyCode.UP) {
             player.stop();
@@ -135,13 +149,24 @@ public class Board extends Pane implements KView {
         }
     }
 
+    /**
+     * Méthode permettant de récupérer l'entrée clavier
+     * du joueur pour savoir quand il est prêt.
+     * @param code : touche relachée.
+     */
     public void moveCircleOnKeyRelease(KeyCode code) {
-
         if(code == KeyCode.R){
             netClient.sendReady();
         }
     }
 
+    /**
+     * Méthode permettant de gérer le déplacement.
+     * C'est-à-dire qu'on va crée un timer et on exécutera
+     * toutes les x milisecondes, les tests pour savoir si
+     * le joueur sur une chaise ainsi qu'appeller move() du
+     * joueur pour qu'il se déplace. Mis-à-jour des joueurs.
+     */
     private void move() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -159,13 +184,16 @@ public class Board extends Pane implements KView {
                         for(Enemy e : enemies)
                             e.placeLabel();
                     }
-
                 });
 
              }
         }, 0, 30);
     }
 
+    /**
+     * Méthode permettant de mettre à jour les ennemis.
+     * @param players tableaux des joueurs en jeu
+     */
     @Override
     public void onPlayersPosReceived(EntityInfo[] players) {
         Platform.runLater(() -> {
@@ -185,6 +213,10 @@ public class Board extends Pane implements KView {
         });
     }
 
+    /**
+     * Méthode permettant de récupérer un EntityInfo du joueur.
+     * @return : EntityInfo.
+     */
     @Override
     public EntityInfo getPlayerInfo() {
         EntityInfo e = new EntityInfo();
@@ -195,6 +227,12 @@ public class Board extends Pane implements KView {
         return e;
     }
 
+    /**
+     * Méthode appelée lorsque le joueur se connecte.
+     * Initialisation des différents objets avec leurs spawn et score.
+     * Initialisation des lignes dans classement.
+     * @param player : Tableau d'EntityInfo des joueurs.
+     */
     @Override
     public void onNewPlayerConnected(EntityInfo[] player) {
         allPlayers.clear();
@@ -216,6 +254,11 @@ public class Board extends Pane implements KView {
 
     }
 
+    /**
+     * Méthode appelée lorsqu'un joueur est prêt.
+     * Mise à jour de la ligne d'affichage.
+     * @param player joueur qui vient de passer prêt
+     */
     @Override
     public void onPlayerReady(EntityInfo player) {
         for(int i = 0; i < allPlayers.size(); i++){
@@ -228,6 +271,11 @@ public class Board extends Pane implements KView {
         Platform.runLater(() -> updatePlayersList());
     }
 
+    /**
+     * Méthode appelée lorsqu'il faut afficher les chaises.
+     * On arrête la musique puis on initialise les chaises.
+     * @param chairsIndex indexes des chaises à afficher
+     */
     @Override
     public void onTimeToShowChairs(int[] chairsIndex) {
 
@@ -243,6 +291,11 @@ public class Board extends Pane implements KView {
 
     }
 
+    /**
+     * Méthode appelée lorsqu'une chaise est prise.
+     * Petit effet musical et on spécifie que la chaise est occupée.
+     * @param index index de la chaise prise
+     */
     @Override
     public void onChairTaken(int index) {
         // Effet musical
@@ -250,6 +303,11 @@ public class Board extends Pane implements KView {
         chairs.get(index).setOccupied(true);
     }
 
+    /**
+     * Méthode appelée lorsque la partie commence.
+     * On lance la musique et on affiche le bon message.
+     * On "réactive" le joueur.
+     */
     @Override
     public void onGameStart() {
         // Relance la musique
@@ -265,6 +323,11 @@ public class Board extends Pane implements KView {
         freezePlayer = false;
     }
 
+    /**
+     * Méthode appelée lorsqu'une manche se termine.
+     * Freeze le joueur et réinitialise la partie.
+     * @param players joueurs avec scores finale calculé
+     */
     @Override
     public void onGameEnd(EntityInfo[] players) {
         freezePlayer = true;
@@ -273,6 +336,10 @@ public class Board extends Pane implements KView {
         reinit();
     }
 
+    /**
+     * Méthode appelée lorsqu'un joueur veut se connecter et que le serveur est plein.
+     * Lui signifie que le serveur est plein et le déconnecte.
+     */
     @Override
     public void onServerFull() {
         Platform.runLater(() -> {
@@ -288,6 +355,10 @@ public class Board extends Pane implements KView {
         });
     }
 
+    /**
+     * Si le joueur essaie de se connecter alors qu'une manche est en cours.
+     * On lui signifie que la partie est en cours et il doit se reconncter plus tard.
+     */
     @Override
     public void onServerAlreadyInGame() {
         Platform.runLater(() -> {
@@ -303,6 +374,10 @@ public class Board extends Pane implements KView {
         });
     }
 
+    /**
+     * Méthode appelée lorsqu'un joueur se déconnecte.
+     * @param player joueur deconnecté
+     */
     @Override
     public void onPlayerDisconnected(EntityInfo player) {
         Platform.runLater(() -> {
@@ -312,6 +387,9 @@ public class Board extends Pane implements KView {
 
     }
 
+    /**
+     * Méthode permettant de quitter correctement le client.
+     */
     @Override
     public void exit() {
         netClient.disconnectMe();
@@ -323,6 +401,9 @@ public class Board extends Pane implements KView {
         });
     }
 
+    /**
+     * Méthode qui va mettre à jour la listes des joueurs.
+     */
     private void updatePlayersList(){
         parent.thePlayersList.getChildren().clear();
         for(int i = 0; i <= allPlayers.size()-1; i++){
@@ -330,9 +411,18 @@ public class Board extends Pane implements KView {
         }
     }
 
+    /**
+     * Getter du NetClient
+     * @return : netClient
+     */
     public KClient getNetClient() {
         return netClient;
     }
+
+    /**
+     * Setter du netclient
+     * @param netClient
+     */
     public void setNetClient(KClient netClient) {
         this.netClient = netClient;
     }
