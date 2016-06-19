@@ -33,9 +33,4 @@ public class KListenerServerGameEnd extends KAbstractListener {
             serverContext.getPlayersInfo().get(playersOnChairs.get(i).uuid).score += (playersOnChairs.size() - i) * BASE_POINTS;
         }
     }
-
-
-
-
-
 }

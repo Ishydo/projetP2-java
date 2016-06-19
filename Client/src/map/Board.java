@@ -58,8 +58,8 @@ public class Board extends Pane implements KView {
     public void reinit(){
 
         // Replace le joueur
-        player.setLayoutX(player.startX);
-        player.setLayoutY(player.startY);
+        player.setCenterX(player.startX);
+        player.setCenterX(player.startY);
 
         // Efface les chaises
         Platform.runLater(() -> {
@@ -161,6 +161,7 @@ public class Board extends Pane implements KView {
                     }
 
                 });
+                System.out.println("My start pos :" +player.getStartX() + " : " + player.getSpeed());
              }
         }, 0, 30);
     }
