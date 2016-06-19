@@ -11,11 +11,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * Created by diogo on 6/10/16.
+ * Etat en cours de jeu côté serveur, on synchronise les positions
  */
 public class KListenerServerGameOn extends KAbstractListener {
 
+    /**
+     * Formatter pour mettre le temps serveur des packets à jour
+     */
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+    /**
+     * Joueur qui sont sur une chaise
+     */
     ArrayList<EntityInfo> playersOnChair = new ArrayList<>();
 
     public KListenerServerGameOn(KBaseApp context) {

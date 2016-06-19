@@ -3,16 +3,26 @@ package networking.packets;
 import java.util.Arrays;
 
 /**
- * Created by Dom on 10.06.2016.
+ * Informe de l’arrivé d’un nouveau joueur ou le passage à prêt de celui-ci.
  */
 public class NewPlayerPacket extends BasePacket {
 
+    /**
+     * Le joueur vient t'il de se connecté ou de se mettre ready ?
+     */
     public enum action {
         CONNECTED,
         READY
     }
 
+    /**
+     * Joueurs en question
+     */
     public EntityInfo playerWhosReady;
+
+    /**
+     * Liste des autres joueurs pour mettre à jour
+     */
     public EntityInfo[] connectedPlayers;
 
     public action playerAction;

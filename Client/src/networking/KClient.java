@@ -9,11 +9,24 @@ import java.io.IOException;
 import java.util.Calendar;
 
 /**
- * Created by diogo on 5/23/16.
+ * Implémente la partie cliente du réseau,
+ * cette classes et utilisé et instancié dans le code graphique du jeu par example.
  */
 public class KClient extends KBaseApp {
+
+    /**
+     * Interface pour communiquer avec la vue
+     */
     private KView view;
+
+    /**
+     * Client kroynet
+     */
     private Client client;
+
+    /**
+     * Delta différence entre temps client et serveur
+     */
     public static long timeDelta;
 
 
@@ -29,6 +42,10 @@ public class KClient extends KBaseApp {
         init();
     }
 
+    /**
+     * Démarre le client
+     * @throws IOException
+     */
     private void init() throws IOException {
         client = new Client(100 * 8192, 3*2048);
         kryoSerializer = client.getKryo();
@@ -39,22 +56,39 @@ public class KClient extends KBaseApp {
         endPoint = (EndPoint) client;
     }
 
+    /**
+     * Envoye l'information que le joueur est prêt
+     */
     public void sendReady(){
         if(view != null){
             client.sendTCP(new StatePacket(view.getPlayerInfo(),StatePacket.states.READY));
         }
     }
 
+    /**
+     * Envoye l'information qu'une chaise est prise
+     * @param index index de la chaise
+     */
     public void sendChairTaken(int index){
+
         OnChairPacket chairPacket = new OnChairPacket();
+
         chairPacket.chairIndex = index;
+
         chairPacket.playerOnChair = view.getPlayerInfo();
+
         Calendar timeout = Calendar.getInstance();
+
         timeout.add(Calendar.MILLISECOND,(int)-KClient.timeDelta);
+
         chairPacket.clientTime = timeout.getTime().toString();
+
         client.sendTCP(chairPacket);
     }
 
+    /**
+     * Informe le serveur qu'on se déconnecte
+     */
     public void disconnectMe(){
         StatePacket statePacket = new StatePacket(view.getPlayerInfo(), StatePacket.states.DISCONNECT_ME);
         client.sendTCP(statePacket);

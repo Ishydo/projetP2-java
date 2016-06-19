@@ -15,7 +15,15 @@ import java.util.*;
  * Created by diogo on 6/10/16.
  */
 public class KListenerServerNewGame extends KAbstractListener {
+
+    /**
+     * Nombre total de chaises (a voir avec la map)
+     */
     private static final int N_TOTAL_CHAIRS = 31;
+
+    /**
+     * Nombre minimum de joueurs pour lancer une partie
+     */
     private static final int MIN_PLAYERS = 2;
 
     public KListenerServerNewGame(KBaseApp context) {
@@ -35,32 +43,53 @@ public class KListenerServerNewGame extends KAbstractListener {
     @Override
     public void received(Connection connection, Object o) {
         super.received(connection, o);
+
+        //Etats
         if (o instanceof StatePacket) {
             StatePacket pr = (StatePacket)o;
 
+            //Nouveau joueur
             if(pr.state == StatePacket.states.HELLO){
                 System.out.println("HELLO PACKET RECEIVED");
                 pr.player.index = serverContext.getPlayersInfo().size();
+
+                //On ajoute le joueur à notre liste
                 serverContext.getPlayersInfo().put(pr.player.uuid,pr.player);
+
+                //Informe les clients qu'un nouveau joueurs s'est connecté
                 serverContext.getServer().sendToAllTCP(new NewPlayerPacket(serverContext.getPlayersInfo().values().toArray(new EntityInfo[serverContext.getPlayersInfo().size()])));
             }
+
+            //Joueur prêt
             else if(pr.state == StatePacket.states.READY){
                 System.out.println("READY RECEIVED");
                 pr.player.ready = true;
                 serverContext.getPlayersInfo().put(pr.player.uuid,pr.player);
+
+                //Informe les clients qu'un joueur est prêt
                 serverContext.getServer().sendToAllTCP(new NewPlayerPacket(pr.player));
-            }else if(((StatePacket) o).state == StatePacket.states.DISCONNECT_ME){
+            }
+            //Joueur déco
+            else if(((StatePacket) o).state == StatePacket.states.DISCONNECT_ME){
                 serverContext.getServer().sendToAllExceptTCP(connection.getID(),o);
                 serverContext.getPlayersInfo().remove(((StatePacket) o).uuid);
             }
         }
 
-
+        //Joueurs tous prêts ? si oui on commence la partie !
         if (areAllPlayersReady() && ((KServer) context).getPlayersInfo().size() >= MIN_PLAYERS) {
+
+            //Changement d'état pour les clients
             StatePacket p = new StatePacket(null,StatePacket.states.GO_TO_ON_STS);
+
+            //On crée une manche
             RoundInfo currentRound = createGame();
             p.roundInfo = currentRound;
+
+            //On envoie l'info à tout le monde
             serverContext.getServer().sendToAllTCP(p);
+
+            //Changement d'état
             context.getEndPoint().removeListener(this);
             context.getEndPoint().addListener(new KListenerServerGameOn(context));
         }
@@ -74,13 +103,12 @@ public class KListenerServerNewGame extends KAbstractListener {
      * @return
      */
     private boolean areAllPlayersReady(){
-        if (0 == serverContext.getPlayersInfo()
+        return 0 == serverContext.getPlayersInfo()
                 .entrySet()
                 .stream()
                 .filter(stringEntityInfoEntry -> stringEntityInfoEntry.getValue().ready == false)
                 .toArray()
-                .length) return true;
-        else return false;
+                .length;
     }
 
     /**

@@ -3,14 +3,38 @@ package networking.packets;
 import map.Enemy;
 
 /**
- * Created by diogo on 09.05.16.
+ * Représente un joueur, contient sa position, son score, s’il est prêt et bien sûr tout ce que contient BasePacket
  */
 public class EntityInfo extends BasePacket {
+
+    /**
+     * Position x
+     */
     public float x=0;
+
+    /**
+     * Position y
+     */
     public float y=0;
+
+    /**
+     * Nom du joueur
+     */
     public String name="";
+
+    /**
+     * Prêt ?
+     */
     public boolean ready = false;
+
+    /**
+     * Score
+     */
     public int score = 0;
+
+    /**
+     * Index pour la position de départ
+     */
     public int index;
 
     @Override

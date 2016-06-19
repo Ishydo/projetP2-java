@@ -1,12 +1,15 @@
 package networking.packets;
 
 /**
- * Created by diogo on 5/23/16.
+ * Permet d’informer le client qu’il doit changer d’état (de listener)
  */
 public class StatePacket extends BasePacket {
 
     public EntityInfo player;
 
+    /**
+     * Etat à envoyer
+     */
     public enum states {
         HELLO,
         READY,
@@ -20,6 +23,10 @@ public class StatePacket extends BasePacket {
 
     public states state;
 
+    /**
+     * Si l'état est GO_TO_ON_STS,
+     * on envoie la configuration de la partie avec
+     */
     public RoundInfo roundInfo;
 
     public StatePacket(){}

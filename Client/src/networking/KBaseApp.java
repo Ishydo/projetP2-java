@@ -8,23 +8,45 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * Created by diogo on 5/23/16.
+ * Classe abstraite contenant le port UDP et TCP utilisé,
+ * certaines variables importantes comme le max de joueurs,
+ * les manches jouées, la manche actuelle et s’occupe de faire
+ * les registers des classes envoyé à travers le réseau.
  */
 public abstract class KBaseApp  {
+
     protected int tcpPort;
+
     protected int udpPort;
+
+    /**
+     * Manches joués et actuel (dernière)
+     */
     protected ArrayList<RoundInfo> playedRounds = new ArrayList<>();
+
+    /**
+     * EndPoint kryonet permettant d'ajouter des listeners
+     */
     protected EndPoint endPoint;
+
+    /**
+     * Serialiseurs kryo
+     */
     protected Kryo kryoSerializer;
-    protected boolean stop = false;
+
+
+    /**
+     * Identifiant unique, utile pour différencié les clients et serveur
+     */
     public static String uuid = UUID.randomUUID().toString();
+
 
     private final int MAX_PLAYERS = 7;
 
-    public RoundInfo getCurrentRound(){
-        return playedRounds.get(playedRounds.size()-1);
-    }
 
+    /**
+     * Enregistre toutes les classes envoyé dans le réseau
+     */
     protected void serializeAll(){
         if(kryoSerializer != null){
             kryoSerializer.register(String.class);
@@ -83,15 +105,11 @@ public abstract class KBaseApp  {
         this.kryoSerializer = kryoSerializer;
     }
 
-    public boolean isStop() {
-        return stop;
-    }
-
-    public void setStop(boolean stop) {
-        this.stop = stop;
-    }
-
     public int getMAX_PLAYERS() {
         return MAX_PLAYERS;
+    }
+
+    public RoundInfo getCurrentRound(){
+        return playedRounds.get(playedRounds.size()-1);
     }
 }

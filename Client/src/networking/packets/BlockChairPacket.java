@@ -1,7 +1,7 @@
 package networking.packets;
 
 /**
- * Created by diogo on 09.05.16.
+ * nforme le joueur que le client à prise la chaise à l’index envoyé.
  */
 public class BlockChairPacket extends BasePacket {
     public int chairIndex;

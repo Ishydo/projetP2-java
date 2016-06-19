@@ -1,7 +1,7 @@
 package networking.packets;
 
 /**
- * Created by diogo on 09.05.16.
+ * Informe le client qu’une chaise à été prise par un autre joueur
  */
 public class OnChairPacket {
     public int chairIndex;
