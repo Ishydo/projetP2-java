@@ -161,7 +161,6 @@ public class Board extends Pane implements KView {
                     }
 
                 });
-                System.out.println("My start pos :" +player.getStartX() + " : " + player.getSpeed());
              }
         }, 0, 30);
     }
@@ -254,7 +253,7 @@ public class Board extends Pane implements KView {
     public void onGameStart() {
         // Relance la musique
         manche++;
-        music.play();
+        Platform.runLater(() -> music.play());
         System.out.println("Le jeu commence !");
 
        if(manche > 1){
